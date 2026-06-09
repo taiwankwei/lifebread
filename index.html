@@ -129,13 +129,17 @@
       <div class="absolute inset-0 z-10" style="background:linear-gradient(to bottom,rgba(181,74,94,.3),rgba(46,125,50,.5))"></div>
       <img src="https://duk.tw/pQlQLJ.png" alt="Beitou Background" class="w-full h-full object-cover" />
     </div>
-    <div class="relative z-20 text-center px-4">
+    <div class="relative z-20 text-center px-4 flex flex-col items-center justify-center">
       <div class="hero-date animate-pulse bg-white/20 backdrop-blur-md inline-block px-8 py-3 rounded-2xl font-black mb-10 border border-white/30 shadow-lg text-sm md:text-lg lg:text-xl tracking-widest">
         2026.06.13(六)
       </div>
       <p class="text-base md:text-xl font-light tracking-[0.15em] md:tracking-[0.2em] opacity-90 mb-2">台北靈糧堂緯華化梅小區</p>
       <h1 class="text-4xl md:text-7xl font-bold mb-4 md:mb-6 drop-shadow-2xl">G12同工會</h1>
       <p class="text-lg md:text-2xl opacity-95 font-light tracking-[0.1em] md:tracking-[0.15em] italic mb-8 md:mb-10" style="font-family:Georgia,serif">主愛 · 澆灌 · 相契 · 生命</p>
+      <button onclick="openOrderModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-full shadow-lg transition-all transform hover:-translate-y-1 hover:shadow-xl active:translate-y-0 text-sm md:text-base tracking-[0.2em] flex items-center gap-2 border border-white/25 backdrop-blur-sm">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        立即點餐
+      </button>
     </div>
   </header>
 
@@ -146,7 +150,7 @@
       <button class="tab-btn bg-white text-emerald-600 shadow-md px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="schedule">聚會行程</button>
       <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="spiritual">同沐主愛</button>
       <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="menu">午餐饗宴</button>
-      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="eco">離塵不不離城</button>
+      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="eco">離塵不離城</button>
       <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="hotspring">溫泉博物館</button>
       <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="village">時代眷村情</button>
       <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="attractions">北投景點</button>
@@ -281,6 +285,22 @@
       </div>
       <!-- ═══ MENU ═══ -->
       <div id="tab-menu" class="tab-content space-y-8">
+        
+        <!-- 個人點餐狀態卡 -->
+        <div id="personal-order-card" class="bg-amber-50/75 border border-amber-100 rounded-3xl p-5 md:p-6 hidden">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">✨</span>
+              <div>
+                <h4 class="font-bold text-gray-800 text-sm md:text-base">您已完成點餐登記</h4>
+                <p id="personal-order-summary" class="text-xs text-amber-700 mt-0.5"></p>
+              </div>
+            </div>
+            <button onclick="openOrderModal()" class="text-xs bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 rounded-xl transition-colors shadow-sm">
+              修改餐點
+            </button>
+          </div>
+        </div>
 
         <!-- Hero Banner -->
         <div class="rounded-[2.5rem] p-8 md:p-10 text-white shadow-xl relative overflow-hidden" style="background:linear-gradient(135deg,#1b5e20,#2e7d32)">
@@ -526,7 +546,7 @@
                   <a href="https://www.youtube.com/watch?v=RoJQjmk4CrM" target="_blank" rel="noopener noreferrer"
                     class="video-thumb relative block overflow-hidden rounded-2xl shadow-lg bg-stone-900 cursor-pointer border border-stone-200"
                     style="padding-bottom:56.25%;height:0">
-                    <img src="image_7635a9.png" alt="北投奇岩重劃區生態巡禮" class="vt-img absolute inset-0 w-full h-full object-cover" />
+                    <img src="https://img.youtube.com/vi/RoJQjmk4CrM/maxresdefault.jpg" alt="北投奇岩重劃區生態巡禮" class="vt-img absolute inset-0 w-full h-full object-cover" />
                     <div class="absolute inset-0 flex items-center justify-center">
                       <div class="play-btn flex items-center justify-center w-16 h-16 rounded-full shadow-2xl" style="background:rgba(220,38,38,.9)">
                         <svg class="w-8 h-8 ml-1" style="fill:white;color:white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -709,10 +729,16 @@
           <p id="bible-text" class="text-gray-700 leading-relaxed text-base italic font-medium mb-4 flex-1"></p>
           <div class="flex items-center justify-between pt-4 border-t border-stone-100">
             <p id="bible-ref" class="text-sm text-amber-600 font-black"></p>
-            <button onclick="loadBibleVerse()" class="text-xs text-stone-400 hover:text-amber-500 transition-colors flex items-center gap-1 font-bold">
-              <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              換一句
-            </button>
+            <div class="flex items-center gap-4">
+              <button onclick="copyBibleVerse(this)" class="text-xs text-stone-400 hover:text-amber-500 transition-colors flex items-center gap-1 font-bold">
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                複製金句
+              </button>
+              <button onclick="loadBibleVerse()" class="text-xs text-stone-400 hover:text-amber-500 transition-colors flex items-center gap-1 font-bold">
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                換一句
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -771,9 +797,29 @@
             <p class="text-xs" style="color:rgba(167,243,208,1)">AI 旅遊顧問 · 線上中</p>
           </div>
         </div>
-        <button onclick="toggleChat()" class="hover:opacity-75 transition-opacity" style="color:rgba(255,255,255,.8)">
-          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleChatSettings()" class="hover:opacity-75 transition-opacity" style="color:rgba(255,255,255,.8)">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+          <button onclick="toggleChat()" class="hover:opacity-75 transition-opacity" style="color:rgba(255,255,255,.8)">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Settings Panel -->
+      <div id="chat-settings" class="border-b border-stone-100 p-4 bg-stone-50" style="display:none">
+        <label class="block text-xs font-bold text-gray-700 mb-1.5">設定 Gemini API 金鑰</label>
+        <div class="flex gap-2">
+          <input id="chat-api-key" type="password" placeholder="AIzaSy..."
+            class="flex-1 bg-white rounded-xl px-3 py-2 text-xs outline-none border border-stone-200 focus:border-emerald-300 transition-colors" />
+          <button onclick="saveChatSettings()" class="text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-2 rounded-xl text-xs font-bold transition-colors">
+            儲存
+          </button>
+        </div>
+        <div class="flex justify-between items-center mt-1.5">
+          <p class="text-[10px] text-gray-400">金鑰僅存於瀏覽器，不會傳送至第三方。</p>
+          <span id="chat-settings-status" class="text-[10px] font-bold text-emerald-600 hidden">已儲存!</span>
+        </div>
       </div>
       <div id="chat-messages" class="overflow-y-auto p-4 space-y-3" style="min-height:200px;max-height:280px">
         <div class="flex gap-2">
@@ -796,6 +842,128 @@
       style="background:#059669">
       <svg id="chat-btn-icon" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     </button>
+  </div>
+
+  <!-- ═══ ORDER MODAL ═══ -->
+  <div id="order-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);">
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden border border-stone-100 flex flex-col max-h-[90vh] scale-95 opacity-0 transition-all duration-300" id="order-modal-card">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-5 flex items-center justify-between text-white" style="background: linear-gradient(135deg, #1b5e20, #2e7d32)">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🍱</span>
+          <div>
+            <h3 class="font-bold text-lg">G12 同工會 · 午餐點餐</h3>
+            <p class="text-xs text-emerald-100 opacity-90">請填寫點餐資訊，以利同工統計</p>
+          </div>
+        </div>
+        <button onclick="closeOrderModal()" class="hover:opacity-75 transition-opacity text-white/80">
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-6 flex-1">
+        
+        <!-- Name Input -->
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-1">
+            <span>👤</span> 填寫姓名 <span class="text-red-500">*</span>
+          </label>
+          <input id="order-name" type="text" placeholder="請輸入您的姓名" 
+            class="w-full bg-stone-50 rounded-2xl px-4 py-3 text-sm outline-none border border-stone-200 focus:border-emerald-500 transition-colors" />
+        </div>
+
+        <!-- Meal Info -->
+        <div class="bg-emerald-50 border border-emerald-100 rounded-3xl p-5">
+          <div class="flex justify-between items-center mb-2">
+            <h4 class="font-black text-emerald-800 text-base">舒食套餐組</h4>
+            <span class="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full font-bold">包含附餐</span>
+          </div>
+          <p class="text-xs text-emerald-700 leading-relaxed">
+            本套餐含：<strong>時蔬沙拉、鮮蔬濃湯、甜點、飲品</strong>，下方請選擇您想搭配的一道主菜。
+          </p>
+        </div>
+
+        <!-- Main Course Options -->
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-1">
+            <span>🥩</span> 選擇主菜 (單選) <span class="text-red-500">*</span>
+          </label>
+          <div class="space-y-2.5" id="main-course-options">
+            
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤搖滾雞腿排" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤搖滾雞腿排</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="紅酒燴牛筋" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">紅酒燴牛筋</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤時蔬（素食）" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤時蔬 <span class="text-xs text-emerald-600 bg-emerald-100/70 px-1.5 py-0.5 rounded font-normal font-bold">素食</span></span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤邱家好魚" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤邱家好魚</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤永續豬肉" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤永續豬肉</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="蒜味油封蝦" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">蒜味油封蝦</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤油封履歷鴨腿" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤油封履歷鴨腿</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="和牛橫隔膜屠夫牛排" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">和牛橫隔膜屠夫牛排</span>
+              </div>
+            </label>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-6 bg-stone-50 border-t border-stone-100 flex gap-3">
+        <button onclick="closeOrderModal()" class="flex-1 py-3.5 rounded-2xl bg-white border border-stone-200 hover:bg-stone-100 text-gray-700 font-bold transition-colors text-sm">
+          取消
+        </button>
+        <button onclick="submitOrder()" class="flex-1 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors shadow-md text-sm flex items-center justify-center gap-1.5">
+          <span>✔️</span> 儲存登記並複製
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <script>
@@ -872,9 +1040,28 @@
     // 頁面載入時初始化
     loadWeather();
     loadBibleVerse();
+    updateMenuTabDisplay();
+
+    // ── BIBLE VERSE COPY LOGIC ──
+    function copyBibleVerse(btn) {
+      const text = document.getElementById('bible-text').textContent;
+      const ref = document.getElementById('bible-ref').textContent;
+      const fullText = `${text} ${ref}`;
+      navigator.clipboard.writeText(fullText).then(() => {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="text-emerald-500">已複製!</span>`;
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+        }, 1500);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    }
 
     // ── CHAT LOGIC ──
     let chatOpen = false;
+    let settingsOpen = false;
+
     function toggleChat() {
       chatOpen = !chatOpen;
       const panel = document.getElementById('chat-panel');
@@ -885,10 +1072,40 @@
         icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
       } else {
         panel.classList.add('hidden-panel');
+        // Also close settings if panel is closed
+        if (settingsOpen) {
+          toggleChatSettings();
+        }
         setTimeout(() => { panel.style.display = 'none'; }, 300);
         icon.innerHTML = '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>';
       }
     }
+
+    function toggleChatSettings() {
+      settingsOpen = !settingsOpen;
+      const settingsPanel = document.getElementById('chat-settings');
+      settingsPanel.style.display = settingsOpen ? 'block' : 'none';
+      if (settingsOpen) {
+        document.getElementById('chat-api-key').value = localStorage.getItem('gemini_api_key') || '';
+      }
+    }
+
+    function saveChatSettings() {
+      const key = document.getElementById('chat-api-key').value.trim();
+      if (key) {
+        localStorage.setItem('gemini_api_key', key);
+      } else {
+        localStorage.removeItem('gemini_api_key');
+      }
+      const statusEl = document.getElementById('chat-settings-status');
+      statusEl.textContent = key ? '已儲存!' : '已清除!';
+      statusEl.classList.remove('hidden');
+      setTimeout(() => {
+        statusEl.classList.add('hidden');
+        toggleChatSettings();
+      }, 1000);
+    }
+
     function addMessage(role, content) {
       const c = document.getElementById('chat-messages');
       const wrap = document.createElement('div');
@@ -902,26 +1119,136 @@
       wrap.appendChild(bubble); c.appendChild(wrap);
       c.scrollTop = c.scrollHeight;
     }
+
     function showTyping() {
       const c = document.getElementById('chat-messages');
       const div = document.createElement('div'); div.id='typing-indicator'; div.className='flex gap-2';
       div.innerHTML = '<div style="background:#f1f5f9;border-radius:1rem 1rem 1rem .25rem;padding:.75rem;color:#6b7280;font-size:.875rem"><span class="typing-dot">·</span><span class="typing-dot">·</span><span class="typing-dot">·</span></div>';
       c.appendChild(div); c.scrollTop = c.scrollHeight;
     }
+
     function hideTyping() { const el=document.getElementById('typing-indicator'); if(el) el.remove(); }
+
     async function sendChat() {
       const input = document.getElementById('chat-input');
       const msg = input.value.trim(); if(!msg) return;
       addMessage('user', msg); input.value=''; showTyping();
+      
+      const apiKey = localStorage.getItem('gemini_api_key');
+      if (!apiKey) {
+        hideTyping();
+        addMessage('assistant', '請先點擊上方齒輪按鈕，設定您的 Gemini API 金鑰以啟用對話功能。');
+        if (!settingsOpen) {
+          toggleChatSettings();
+        }
+        return;
+      }
+
       try {
-        const apiKey = '';
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-        const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ contents:[{ parts:[{ text:`你是北投初夏漫遊小助手。日期 2026/5/23。回答要親切專業。\n問題：${msg}` }] }] }) });
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const res = await fetch(url, { 
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            contents: [{ 
+              parts: [{ 
+                text: `你是北投初夏漫遊小助手。今天日期是 2026/06/13。回答要親切專業。\n問題：${msg}` 
+              }] 
+            }] 
+          }) 
+        });
         const data = await res.json();
+        if (data.error) {
+          throw new Error(data.error.message || 'API 錯誤');
+        }
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '抱歉，小助手暫時無法連線。';
-        hideTyping(); addMessage('assistant', text);
-      } catch(e) { hideTyping(); addMessage('assistant','連線異常，請檢查網絡狀況。'); }
+        hideTyping(); 
+        addMessage('assistant', text);
+      } catch(e) { 
+        hideTyping(); 
+        addMessage('assistant', `連線異常或 API 金鑰無效。請檢查您的金鑰設定。\n錯誤原因：${e.message || '未知錯誤'}`); 
+      }
+    }
+
+    // ── ORDER LOGIC ──
+    function openOrderModal() {
+      const modal = document.getElementById('order-modal');
+      const card = document.getElementById('order-modal-card');
+      modal.classList.remove('hidden');
+      
+      const savedName = localStorage.getItem('g12_order_name') || '';
+      const savedMain = localStorage.getItem('g12_order_main') || '';
+      
+      document.getElementById('order-name').value = savedName;
+      if (savedMain) {
+        const radio = document.querySelector(`input[name="main-course"][value="${savedMain}"]`);
+        if (radio) radio.checked = true;
+      } else {
+        const radios = document.getElementsByName('main-course');
+        for (let i = 0; i < radios.length; i++) {
+          radios[i].checked = false;
+        }
+      }
+      
+      setTimeout(() => {
+        card.classList.remove('scale-95', 'opacity-0');
+      }, 50);
+    }
+    
+    function closeOrderModal() {
+      const modal = document.getElementById('order-modal');
+      const card = document.getElementById('order-modal-card');
+      
+      card.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+    
+    function submitOrder() {
+      const name = document.getElementById('order-name').value.trim();
+      if (!name) {
+        alert('請輸入姓名！');
+        return;
+      }
+      
+      const selectedRadio = document.querySelector('input[name="main-course"]:checked');
+      if (!selectedRadio) {
+        alert('請選擇一道主菜！');
+        return;
+      }
+      
+      const mainDish = selectedRadio.value;
+      
+      localStorage.setItem('g12_order_name', name);
+      localStorage.setItem('g12_order_main', mainDish);
+      
+      const copyText = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
+      
+      navigator.clipboard.writeText(copyText).then(() => {
+        alert(`點餐登記成功！\n\n已將點餐資訊複製到剪貼簿，請至 Line 群組貼上發送給統計同工。\n\n登記內容：\n${copyText}`);
+        closeOrderModal();
+        updateMenuTabDisplay();
+      }).catch(err => {
+        console.error('Failed to copy order info: ', err);
+        alert(`點餐登記成功！但無法複製到剪貼簿。點餐內容：\n${copyText}`);
+        closeOrderModal();
+        updateMenuTabDisplay();
+      });
+    }
+
+    function updateMenuTabDisplay() {
+      const name = localStorage.getItem('g12_order_name');
+      const main = localStorage.getItem('g12_order_main');
+      const card = document.getElementById('personal-order-card');
+      const summary = document.getElementById('personal-order-summary');
+      
+      if (name && main) {
+        card.classList.remove('hidden');
+        summary.innerHTML = `登記姓名：<strong>${name}</strong> ｜ 選擇主菜：<strong>${main}</strong> (舒食套餐組)`;
+      } else {
+        card.classList.add('hidden');
+      }
     }
   </script>
 </body>
