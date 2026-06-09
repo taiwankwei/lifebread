@@ -1240,12 +1240,12 @@
     
     // ── FIREBASE CONFIGURATION ──
     const firebaseConfig = {
-      apiKey: "AIzaSyAbgYXyCf4Zi3d4LWlhtXKgOhENJ-zcRGU",
-      authDomain: "myproject-bf2d2.firebaseapp.com",
-      projectId: "myproject-bf2d2",
-      storageBucket: "myproject-bf2d2.firebasestorage.app",
-      messagingSenderId: "611155578713",
-      appId: "1:611155578713:web:2577308bc31c9cf3560648"
+      apiKey: "AIzaSyCJkm_eA-BJtFzbxO1CyxwK8PbmgHmqq7U",
+      authDomain: "mydesignproject-f22d5.firebaseapp.com",
+      projectId: "mydesignproject-f22d5",
+      storageBucket: "mydesignproject-f22d5.firebasestorage.app",
+      messagingSenderId: "940076219394",
+      appId: "1:940076219394:web:49a10f18c8db9cf50c7b1b"
     };
 
     let db = null;
@@ -1264,7 +1264,7 @@
     // ── FIREBASE REALTIME SYNC ──
     function loadOrdersFromFirebase() {
       if (!db) return;
-      db.collection('g12_orders').orderBy('timestamp', 'asc').onSnapshot((querySnapshot) => {
+      db.collection('lifebread').orderBy('timestamp', 'asc').onSnapshot((querySnapshot) => {
         const orders = [];
         const tally = {};
         querySnapshot.forEach((doc) => {
@@ -1319,7 +1319,7 @@
       if (!db) {
         return Promise.reject(new Error("Firebase is not initialized."));
       }
-      return db.collection('g12_orders').doc(name).set({
+      return db.collection('lifebread').doc(name).set({
         name: name,
         meal: "舒食套餐組",
         main: mainDish,
