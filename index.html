@@ -1201,18 +1201,11 @@
       const card = document.getElementById('order-modal-card');
       modal.classList.remove('hidden');
       
-      const savedName = localStorage.getItem('g12_order_name') || '';
-      const savedMain = localStorage.getItem('g12_order_main') || '';
-      
-      document.getElementById('order-name').value = savedName;
-      if (savedMain) {
-        const radio = document.querySelector(`input[name="main-course"][value="${savedMain}"]`);
-        if (radio) radio.checked = true;
-      } else {
-        const radios = document.getElementsByName('main-course');
-        for (let i = 0; i < radios.length; i++) {
-          radios[i].checked = false;
-        }
+      // 每次開啟表單時清空姓名及主菜選項
+      document.getElementById('order-name').value = '';
+      const radios = document.getElementsByName('main-course');
+      for (let i = 0; i < radios.length; i++) {
+        radios[i].checked = false;
       }
       
       setTimeout(() => {
