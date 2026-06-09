@@ -1066,7 +1066,6 @@
     loadWeather();
     loadBibleVerse();
     updateMenuTabDisplay();
-    loadOrdersFromFirebase();
 
     // ── BIBLE VERSE COPY LOGIC ──
     function copyBibleVerse(btn) {
@@ -1250,6 +1249,9 @@
     } catch (e) {
       console.error("Firebase initialization failed:", e);
     }
+
+    // Initialize Firebase Realtime listener after DB is ready
+    loadOrdersFromFirebase();
 
     // ── FIREBASE REALTIME SYNC ──
     function loadOrdersFromFirebase() {
