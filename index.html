@@ -139,7 +139,7 @@
       <p class="text-base md:text-xl font-light tracking-[0.15em] md:tracking-[0.2em] opacity-90 mb-2">台北靈糧堂緯華化梅小區</p>
       <h1 class="text-4xl md:text-7xl font-bold mb-4 md:mb-6 drop-shadow-2xl">G12同工會</h1>
       <p class="text-lg md:text-2xl opacity-95 font-light tracking-[0.1em] md:tracking-[0.15em] italic mb-8 md:mb-10" style="font-family:Georgia,serif">主愛 · 澆灌 · 相契 · 生命</p>
-      <button onclick="openOrderModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-full shadow-lg transition-all transform hover:-translate-y-1 hover:shadow-xl active:translate-y-0 text-sm md:text-base tracking-[0.2em] flex items-center gap-2 border border-white/25 backdrop-blur-sm">
+      <button onclick="openOrderModal(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-full shadow-lg transition-all transform hover:-translate-y-1 hover:shadow-xl active:translate-y-0 text-sm md:text-base tracking-[0.2em] flex items-center gap-2 border border-white/25 backdrop-blur-sm">
         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         立即點餐
       </button>
@@ -984,7 +984,7 @@
           取消
         </button>
         <button onclick="submitOrder()" class="flex-1 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors shadow-md text-sm flex items-center justify-center gap-1.5">
-          <span>✔️</span> 立即點餐
+          <span>✔️</span> 送出
         </button>
       </div>
 
@@ -1196,16 +1196,31 @@
     }
 
     // ── ORDER LOGIC ──
-    function openOrderModal() {
+    function openOrderModal(clear = false) {
       const modal = document.getElementById('order-modal');
       const card = document.getElementById('order-modal-card');
       modal.classList.remove('hidden');
       
-      // 每次開啟表單時清空姓名及主菜選項
-      document.getElementById('order-name').value = '';
-      const radios = document.getElementsByName('main-course');
-      for (let i = 0; i < radios.length; i++) {
-        radios[i].checked = false;
+      if (clear) {
+        // 啟動"立即點餐"按鈕時清空資料
+        document.getElementById('order-name').value = '';
+        const radios = document.getElementsByName('main-course');
+        for (let i = 0; i < radios.length; i++) {
+          radios[i].checked = false;
+        }
+      } else {
+        // 修改餐點時載入本機已存資料
+        const savedName = localStorage.getItem('g12_order_name') || '';
+        const savedMain = localStorage.getItem('g12_order_main') || '';
+        document.getElementById('order-name').value = savedName;
+        const radios = document.getElementsByName('main-course');
+        for (let i = 0; i < radios.length; i++) {
+          if (savedMain && radios[i].value === savedMain) {
+            radios[i].checked = true;
+          } else {
+            radios[i].checked = false;
+          }
+        }
       }
       
       setTimeout(() => {
