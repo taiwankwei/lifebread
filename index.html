@@ -984,7 +984,7 @@
           取消
         </button>
         <button onclick="submitOrder()" class="flex-1 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors shadow-md text-sm flex items-center justify-center gap-1.5">
-          <span>✔️</span> 儲存登記並複製
+          <span>✔️</span> 立即點餐
         </button>
       </div>
 
@@ -1358,13 +1358,11 @@
 
       submitOrderToFirebase(name, mainDish).then(() => {
         navigator.clipboard.writeText(copyText).then(() => {
-          alert(`點餐登記成功並已同步至資料庫！\n\n已將點餐資訊複製到剪貼簿。接著將為您開啟 Email 軟體發送通知。`);
           sendOrderEmail(name, mainDish);
           closeOrderModal();
           updateMenuTabDisplay();
         }).catch(err => {
           console.error('Failed to copy order info: ', err);
-          alert(`點餐登記成功並已同步至資料庫！但無法複製到剪貼簿。接著將為您開啟 Email 軟體發送通知。`);
           sendOrderEmail(name, mainDish);
           closeOrderModal();
           updateMenuTabDisplay();
@@ -1372,12 +1370,10 @@
       }).catch(err => {
         console.error("Firebase save failed:", err);
         navigator.clipboard.writeText(copyText).then(() => {
-          alert(`點餐已儲存至本機 (資料庫同步失敗，請檢查網路)\n\n已將點餐資訊複製到剪貼簿。接著將為您開啟 Email 軟體發送通知。`);
           sendOrderEmail(name, mainDish);
           closeOrderModal();
           updateMenuTabDisplay();
         }).catch(err2 => {
-          alert(`點餐登記成功 (本機)！接著將為您開啟 Email 軟體發送通知。`);
           sendOrderEmail(name, mainDish);
           closeOrderModal();
           updateMenuTabDisplay();
