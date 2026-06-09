@@ -1399,11 +1399,13 @@
       submitOrderToFirebase(name, mainDish).then(() => {
         navigator.clipboard.writeText(copyText).then(() => {
           sendOrderEmail(name, mainDish);
+          alert('點餐成功，謝謝');
           closeOrderModal();
           updateMenuTabDisplay();
         }).catch(err => {
           console.error('Failed to copy order info: ', err);
           sendOrderEmail(name, mainDish);
+          alert('點餐成功，謝謝');
           closeOrderModal();
           updateMenuTabDisplay();
         });
@@ -1411,10 +1413,12 @@
         console.error("Firebase save failed:", err);
         navigator.clipboard.writeText(copyText).then(() => {
           sendOrderEmail(name, mainDish);
+          alert('點餐成功，謝謝');
           closeOrderModal();
           updateMenuTabDisplay();
         }).catch(err2 => {
           sendOrderEmail(name, mainDish);
+          alert('點餐成功，謝謝');
           closeOrderModal();
           updateMenuTabDisplay();
         });
