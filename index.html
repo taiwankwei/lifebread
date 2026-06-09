@@ -1321,9 +1321,13 @@
       }
       return db.collection('lifebread').doc(name).set({
         name: name,
+        姓名: name,
         meal: "舒食套餐組",
+        套餐: "舒食套餐組",
         main: mainDish,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        主菜: mainDish,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        created_at: firebase.firestore.FieldValue.serverTimestamp()
       });
     }
 
