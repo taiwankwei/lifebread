@@ -1238,6 +1238,9 @@
       }, 300);
     }
     
+    // ── GOOGLE APPS SCRIPT CONFIGURATION ──
+    const GOOGLE_SCRIPT_URL = "";
+
     // ── FIREBASE CONFIGURATION ──
     const firebaseConfig = {
       apiKey: "AIzaSyAbgYXyCf4Zi3d4LWlhtXKgOhENJ-zcRGU",
@@ -1333,9 +1336,26 @@
       const subject = `【G12同工會點餐登記】${name} - ${mainDish}`;
       const body = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
       
+      if (GOOGLE_SCRIPT_URL) {
+        // Send email automatically in the background using Google Apps Script Web App
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name, main: mainDish })
+        }).then(() => {
+          console.log("Email sent successfully via Google Apps Script.");
+        }).catch(err => {
+          console.error("Failed to send email via Apps Script, falling back to mailto:", err);
+          fallbackMailto(emailTo, subject, body);
+        });
+      } else {
+        fallbackMailto(emailTo, subject, body);
+      }
+    }
+    
+    function fallbackMailto(emailTo, subject, body) {
       const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      
-      // Use anchor element click for better compatibility across all mobile and desktop browsers
       const link = document.createElement('a');
       link.href = mailtoUrl;
       link.style.display = 'none';
