@@ -15,6 +15,9 @@
   <meta name="twitter:description" content="台北靈糧堂緯華化梅小區 G12同工會 · 2026/06/13(六) · 奇岩站／北投">
   <meta name="twitter:image" content="https://he22527.github.io/lifebread/g12_beitou_portrait_2026_20260525_114434.png">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase SDKs (compat version for standard script imports) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <style>
     .tab-content { display: none; }
     .tab-content.active { display: block; animation: fadeSlideIn 0.5s ease forwards; }
@@ -513,6 +516,28 @@
             </a>
           </div>
         </div>
+
+        <!-- 點餐統計名單卡 -->
+        <div id="firebase-orders-card" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100 hidden">
+          <h3 class="text-emerald-800 font-bold text-xl flex items-center mb-4 gap-2">
+            <span>📊</span>
+            點餐統計名單
+          </h3>
+          
+          <!-- 統計數據 -->
+          <div id="orders-tally-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <!-- Dynamic Tally Elements -->
+          </div>
+
+          <!-- 詳細清單 -->
+          <div class="border-t border-stone-100 pt-4">
+            <h4 class="text-sm font-bold text-stone-400 mb-3">詳細登記清單</h4>
+            <div id="orders-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+              <!-- Dynamic List Elements -->
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- ═══ ECO ═══ -->
@@ -1041,6 +1066,7 @@
     loadWeather();
     loadBibleVerse();
     updateMenuTabDisplay();
+    loadOrdersFromFirebase();
 
     // ── BIBLE VERSE COPY LOGIC ──
     function copyBibleVerse(btn) {
@@ -1205,6 +1231,102 @@
       }, 300);
     }
     
+    // ── FIREBASE CONFIGURATION ──
+    const firebaseConfig = {
+      apiKey: "AIzaSyAbgYXyCf4Zi3d4LWlhtXKgOhENJ-zcRGU",
+      authDomain: "myproject-bf2d2.firebaseapp.com",
+      projectId: "myproject-bf2d2",
+      storageBucket: "myproject-bf2d2.firebasestorage.app",
+      messagingSenderId: "611155578713",
+      appId: "1:611155578713:web:2577308bc31c9cf3560648"
+    };
+
+    let db = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+      }
+    } catch (e) {
+      console.error("Firebase initialization failed:", e);
+    }
+
+    // ── FIREBASE REALTIME SYNC ──
+    function loadOrdersFromFirebase() {
+      if (!db) return;
+      db.collection('g12_orders').orderBy('timestamp', 'asc').onSnapshot((querySnapshot) => {
+        const orders = [];
+        const tally = {};
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          orders.push(data);
+          tally[data.main] = (tally[data.main] || 0) + 1;
+        });
+        renderOrdersList(orders, tally);
+      }, (error) => {
+        console.error("Error loading orders from Firebase:", error);
+      });
+    }
+
+    function renderOrdersList(orders, tally) {
+      const card = document.getElementById('firebase-orders-card');
+      const tallyContainer = document.getElementById('orders-tally-container');
+      const listContainer = document.getElementById('orders-list-container');
+      
+      if (!card || !tallyContainer || !listContainer) return;
+
+      if (orders.length === 0) {
+        card.classList.add('hidden');
+        return;
+      }
+      
+      card.classList.remove('hidden');
+      
+      tallyContainer.innerHTML = '';
+      for (const [dish, count] of Object.entries(tally)) {
+        const item = document.createElement('div');
+        item.className = 'bg-stone-50 rounded-2xl p-3 text-center border border-stone-150 shadow-sm';
+        item.innerHTML = `
+          <p class="text-[11px] text-stone-400 font-bold mb-0.5">${dish}</p>
+          <p class="text-lg font-black text-emerald-700">${count} 份</p>
+        `;
+        tallyContainer.appendChild(item);
+      }
+      
+      listContainer.innerHTML = '';
+      orders.forEach((order) => {
+        const item = document.createElement('div');
+        item.className = 'flex justify-between items-center bg-stone-50/50 hover:bg-stone-50 px-4 py-2.5 rounded-2xl border border-stone-100 transition-colors';
+        item.innerHTML = `
+          <span class="font-bold text-gray-800">${order.name}</span>
+          <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-bold">${order.main}</span>
+        `;
+        listContainer.appendChild(item);
+      });
+    }
+
+    function submitOrderToFirebase(name, mainDish) {
+      if (!db) {
+        return Promise.reject(new Error("Firebase is not initialized."));
+      }
+      return db.collection('g12_orders').doc(name).set({
+        name: name,
+        meal: "舒食套餐組",
+        main: mainDish,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    // ── SEND EMAIL NOTIFICATION ──
+    function sendOrderEmail(name, mainDish) {
+      const emailTo = "taiwan.kwei@ceci.com.tw,g0306@ceci.com.tw,taiwan.kwei@gmail.com";
+      const subject = `【G12同工會點餐登記】${name} - ${mainDish}`;
+      const body = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
+      
+      const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoUrl;
+    }
+
     function submitOrder() {
       const name = document.getElementById('order-name').value.trim();
       if (!name) {
@@ -1225,15 +1347,44 @@
       
       const copyText = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
       
-      navigator.clipboard.writeText(copyText).then(() => {
-        alert(`點餐登記成功！\n\n已將點餐資訊複製到剪貼簿，請至 Line 群組貼上發送給統計同工。\n\n登記內容：\n${copyText}`);
-        closeOrderModal();
-        updateMenuTabDisplay();
+      const submitBtn = document.querySelector('#order-modal button[onclick*="submitOrder"]');
+      const originalHTML = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳</span> 正在儲存...';
+      }
+
+      submitOrderToFirebase(name, mainDish).then(() => {
+        navigator.clipboard.writeText(copyText).then(() => {
+          alert(`點餐登記成功並已同步至資料庫！\n\n已將點餐資訊複製到剪貼簿。接著將為您開啟 Email 軟體發送通知。`);
+          sendOrderEmail(name, mainDish);
+          closeOrderModal();
+          updateMenuTabDisplay();
+        }).catch(err => {
+          console.error('Failed to copy order info: ', err);
+          alert(`點餐登記成功並已同步至資料庫！但無法複製到剪貼簿。接著將為您開啟 Email 軟體發送通知。`);
+          sendOrderEmail(name, mainDish);
+          closeOrderModal();
+          updateMenuTabDisplay();
+        });
       }).catch(err => {
-        console.error('Failed to copy order info: ', err);
-        alert(`點餐登記成功！但無法複製到剪貼簿。點餐內容：\n${copyText}`);
-        closeOrderModal();
-        updateMenuTabDisplay();
+        console.error("Firebase save failed:", err);
+        navigator.clipboard.writeText(copyText).then(() => {
+          alert(`點餐已儲存至本機 (資料庫同步失敗，請檢查網路)\n\n已將點餐資訊複製到剪貼簿。接著將為您開啟 Email 軟體發送通知。`);
+          sendOrderEmail(name, mainDish);
+          closeOrderModal();
+          updateMenuTabDisplay();
+        }).catch(err2 => {
+          alert(`點餐登記成功 (本機)！接著將為您開啟 Email 軟體發送通知。`);
+          sendOrderEmail(name, mainDish);
+          closeOrderModal();
+          updateMenuTabDisplay();
+        });
+      }).finally(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHTML;
+        }
       });
     }
 
