@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>202606 G12同工會</title>
+  <title>20260613 G12同工會</title>
   <meta name="description" content="台北靈糧堂緯華化梅小區 G12同工會 · 2026/06/13(六) · 奇岩站／北投 · 主愛 · 澆灌 · 相契 · 生命">
-  <meta property="og:title" content="202606 G12同工會">
+  <meta property="og:title" content="20260613 G12同工會">
   <meta property="og:description" content="台北靈糧堂緯華化梅小區 G12同工會 · 2026/06/13(六) · 奇岩站／北投 · 主愛 · 澆灌 · 相契 · 生命">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://he22527.github.io/lifebread/">
   <meta property="og:image" content="https://he22527.github.io/lifebread/g12_beitou_portrait_2026_20260525_114434.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="202606 G12同工會">
+  <meta name="twitter:title" content="20260613 G12同工會">
   <meta name="twitter:description" content="台北靈糧堂緯華化梅小區 G12同工會 · 2026/06/13(六) · 奇岩站／北投">
   <meta name="twitter:image" content="https://he22527.github.io/lifebread/g12_beitou_portrait_2026_20260525_114434.png">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -1388,50 +1388,45 @@
       
       const mainDish = selectedRadio.value;
       
+      // 1. 立即停用按鈕以防重複點擊，並顯示載入狀態
+      const submitBtn = document.querySelector('#order-modal button[onclick*="submitOrder"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳</span> 正在傳送...';
+      }
+      
       localStorage.setItem('g12_order_name', name);
       localStorage.setItem('g12_order_main', mainDish);
       
       const copyText = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
       
-      const submitBtn = document.querySelector('#order-modal button[onclick*="submitOrder"]');
-      const originalHTML = submitBtn ? submitBtn.innerHTML : '';
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>⏳</span> 正在儲存...';
-      }
-
+      // 2. 立即在背景非同步寫入 Firebase Firestore
       submitOrderToFirebase(name, mainDish).then(() => {
-        navigator.clipboard.writeText(copyText).then(() => {
-          sendOrderEmail(name, mainDish);
-          alert('點餐成功，謝謝');
-          closeOrderModal();
-          updateMenuTabDisplay();
-        }).catch(err => {
-          console.error('Failed to copy order info: ', err);
-          sendOrderEmail(name, mainDish);
-          alert('點餐成功，謝謝');
-          closeOrderModal();
-          updateMenuTabDisplay();
-        });
+        console.log("Firebase sync completed in background.");
       }).catch(err => {
-        console.error("Firebase save failed:", err);
-        navigator.clipboard.writeText(copyText).then(() => {
-          sendOrderEmail(name, mainDish);
-          alert('點餐成功，謝謝');
-          closeOrderModal();
-          updateMenuTabDisplay();
-        }).catch(err2 => {
-          sendOrderEmail(name, mainDish);
-          alert('點餐成功，謝謝');
-          closeOrderModal();
-          updateMenuTabDisplay();
-        });
-      }).finally(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalHTML;
-        }
+        console.error("Firebase sync failed in background:", err);
       });
+
+      // 3. 立即在背景非同步發送電子郵件
+      sendOrderEmail(name, mainDish);
+
+      // 4. 立即複製點餐內容到剪貼簿
+      navigator.clipboard.writeText(copyText).catch(err => {
+        console.error('Failed to copy order info: ', err);
+      });
+
+      // 5. 立即回應「點餐成功，謝謝」並關閉視窗與更新標籤頁顯示
+      alert('點餐成功，謝謝');
+      closeOrderModal();
+      updateMenuTabDisplay();
+      
+      // 6. 延遲恢復按鈕狀態（確保使用者關閉視窗後，下一次打開時按鈕已恢復，但期間不被重複點擊）
+      if (submitBtn) {
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>✔️</span> 送出';
+        }, 500);
+      }
     }
 
     function updateMenuTabDisplay() {
