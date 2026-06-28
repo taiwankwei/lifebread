@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christ's sheep</title>
+  <meta name="description" content="台北靈糧堂緯華化梅小區 G12同工會 · 2026/07/04(六) · 奇岩站／北投 · 主愛 · 澆灌 · 相契 · 生命">
+  <meta property="og:title" content="Christ's sheep">
+  <meta property="og:description" content="台北靈糧堂緯華化梅小區 G12同工會 · 2026/07/04(六) · 奇岩站／北投 · 主愛 · 澆灌 · 相契 · 生命">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://he22527.github.io/lifebread/">
+  <meta property="og:image" content="https://he22527.github.io/lifebread/g12_beitou_portrait_2026_20260525_114434.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Christ's sheep">
+  <meta name="twitter:description" content="台北靈糧堂緯華化梅小區 G12同工會 · 2026/07/04(六) · 奇岩站／北投">
+  <meta name="twitter:image" content="https://he22527.github.io/lifebread/g12_beitou_portrait_2026_20260525_114434.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase SDKs (compat version for standard script imports) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeSlideIn 0.5s ease forwards; }
+    @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse-anim { 0%,100%{opacity:1} 50%{opacity:.6} }
+    .animate-pulse { animation: pulse-anim 2s cubic-bezier(.4,0,.6,1) infinite; }
+
+    .schedule-clickable { transition: all 0.3s ease; }
+    .schedule-clickable:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0/.1),0 8px 10px -6px rgb(0 0 0/.1); border-color: rgb(167 243 208); }
+    .schedule-clickable:hover .sched-icon { background-color: rgb(16 185 129) !important; color: white !important; }
+    .schedule-clickable:hover .sched-title { color: rgb(4 120 87); }
+    .schedule-clickable:hover .sched-chevron { opacity: 1 !important; transform: translateX(0) !important; }
+    .sched-chevron { opacity: 0; transform: translateX(-8px); transition: all 0.3s; display:inline-block; }
+
+    .park-card:hover .park-img { transform: scale(1.1); }
+    .park-img { transition: transform 0.5s ease; }
+
+    .nav-route { transition: all 0.3s; }
+    .nav-route:hover { background-color: rgb(236 253 245); border-color: rgb(167 243 208) !important; }
+    .nav-route:hover .nav-arrow { background-color: rgb(5 150 105); color: white; }
+    .nav-arrow { transition: all 0.3s; }
+
+    .spirit-card:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0/.1),0 8px 10px -6px rgb(0 0 0/.1); }
+    .spirit-card:hover .spirit-icon-box { transform: rotate(12deg); }
+    .spirit-icon-box { transition: transform 0.3s; }
+
+    .video-thumb { transition: all 0.3s; }
+    .video-thumb:hover { border-color: rgb(52 211 153) !important; box-shadow: 0 10px 25px -5px rgb(52 211 153/.2); }
+    .video-thumb:hover .vt-img { transform: scale(1.05); opacity: 1; }
+    .video-thumb:hover .play-btn { transform: scale(1.1); }
+    .vt-img { transition: all 0.7s ease; opacity: 0.8; }
+    .play-btn { transition: transform 0.3s; }
+
+    .icebreak-card:hover .icebreak-img { transform: scale(1.05); }
+    .icebreak-img { transition: transform 0.7s ease; }
+
+    #chat-panel { transition: opacity 0.3s ease, transform 0.3s ease; transform-origin: bottom right; }
+    #chat-panel.hidden-panel { transform: scale(0.9); opacity: 0; pointer-events: none; }
+
+    @keyframes typing-dot { 0%,60%,100%{transform:translateY(0);opacity:.5} 30%{transform:translateY(-6px);opacity:1} }
+    .typing-dot { display:inline-block; animation: typing-dot 1.4s infinite; font-size:1.4rem; line-height:1; }
+    .typing-dot:nth-child(2){animation-delay:.2s}
+    .typing-dot:nth-child(3){animation-delay:.4s}
+
+    #chat-messages { scrollbar-width: thin; }
+    #tab-nav { -ms-overflow-style:none; scrollbar-width:none; }
+    #tab-nav::-webkit-scrollbar { display:none; }
+    .ws-preline { white-space: pre-line; }
+    a { text-decoration: none; }
+
+    /* ── Mobile overrides ── */
+    @media (max-width: 640px) {
+      /* Hero */
+      header { min-height: 420px !important; }
+      header h1 { font-size: 2.5rem !important; }
+      header p  { font-size: 1rem !important; letter-spacing: 0.08em !important; }
+      .hero-date { font-size: 0.75rem !important; padding: 0.5rem 1.25rem !important; margin-bottom: 1.5rem !important; }
+
+      /* Main padding */
+      main { padding-left: 1rem; padding-right: 1rem; padding-top: 1rem; }
+
+      /* Tab nav – full width strip */
+      #tab-nav { width: 100% !important; border-radius: 0 !important; margin-top: 0 !important;
+        padding: 0.5rem 0.75rem !important; gap: 0.375rem !important;
+        position: sticky; top: 0; z-index: 50; background: rgba(231,229,228,.97); backdrop-filter:blur(8px); }
+      .tab-btn { padding: 0.45rem 0.85rem !important; font-size: 0.7rem !important; }
+
+      /* Cards – reduce padding */
+      .card-pad { padding: 1.25rem !important; }
+      .p-8 { padding: 1.25rem !important; }
+      .p-10 { padding: 1.25rem !important; }
+
+      /* Schedule – 集合出發 big text smaller */
+      .sched-big { font-size: 1rem !important; }
+
+      /* Maps */
+      .map-frame { height: 260px !important; }
+
+      /* Hiking map stacks below text on mobile – handled by grid */
+
+      /* Eco header */
+      .eco-header { padding: 2.5rem 1.25rem !important; }
+      .eco-header svg { width: 2.5rem; height: 2.5rem; }
+
+      /* Spirit cards grid */
+      .spirit-grid { gap: 0.75rem !important; }
+
+      /* Icebreak image height */
+      .icebreak-h { height: 200px !important; }
+
+      /* Chat panel */
+      #chat-panel { width: calc(100vw - 2rem) !important; right: 0; }
+      #chat-widget { right: 1rem !important; bottom: 1rem !important; }
+
+      /* Village description */
+      .village-desc { font-size: 0.875rem !important; }
+
+      /* Guidelines grid */
+      .guide-grid { grid-template-columns: 1fr 1fr !important; gap: 0.75rem !important; }
+
+      /* Venue header card */
+      .venue-head { padding: 1.5rem !important; }
+      .venue-head h2 { font-size: 1.75rem !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-stone-50 font-sans text-gray-800 antialiased">
+
+  <!-- ═══ HERO ═══ -->
+  <header class="relative flex items-center justify-center overflow-hidden shadow-2xl text-white" style="min-height:580px">
+    <div class="absolute inset-0">
+      <div class="absolute inset-0 z-10" style="background:linear-gradient(to bottom,rgba(181,74,94,.3),rgba(46,125,50,.5))"></div>
+      <img src="https://duk.tw/pQlQLJ.png" alt="Beitou Background" class="w-full h-full object-cover" />
+    </div>
+    <div class="relative z-20 text-center px-4 flex flex-col items-center justify-center">
+      <div class="hero-date animate-pulse bg-white/20 backdrop-blur-md inline-block px-8 py-3 rounded-2xl font-black mb-10 border border-white/30 shadow-lg text-sm md:text-lg lg:text-xl tracking-widest">
+        2026.07.04(六)
+      </div>
+      <p class="text-base md:text-xl font-light tracking-[0.15em] md:tracking-[0.2em] opacity-90 mb-2">台北靈糧堂緯華化梅小區</p>
+      <h1 class="text-4xl md:text-7xl font-bold mb-4 md:mb-6 drop-shadow-2xl">Christ's sheep</h1>
+      <p class="text-lg md:text-2xl opacity-95 font-light tracking-[0.1em] md:tracking-[0.15em] italic mb-8 md:mb-10" style="font-family:Georgia,serif">主愛 · 澆灌 · 相契 · 生命</p>
+      <button onclick="openOrderModal(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-full shadow-lg transition-all transform hover:-translate-y-1 hover:shadow-xl active:translate-y-0 text-sm md:text-base tracking-[0.2em] flex items-center gap-2 border border-white/25 backdrop-blur-sm">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        立即點餐
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-3 md:px-4 py-4 md:py-12 relative" style="z-index:30">
+
+    <!-- ═══ TAB NAV ═══ -->
+    <div id="tab-nav" class="flex flex-nowrap justify-start md:justify-center gap-2 mb-6 md:mb-10 bg-stone-200/50 p-1.5 mx-auto backdrop-blur-md shadow-inner mt-4 md:mt-12 overflow-x-auto w-full md:w-fit" style="border-radius:2.5rem">
+      <button class="tab-btn bg-white text-emerald-600 shadow-md px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="schedule">聚會行程</button>
+      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="spiritual">同沐主愛</button>
+      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="menu">午餐饗宴</button>
+      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="eco">離塵不離城</button>
+      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="hotspring">溫泉博物館</button>
+      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="village">時代眷村情</button>
+      <button class="tab-btn text-gray-500 hover:text-gray-700 px-5 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap" data-tab="attractions">北投景點</button>
+    </div>
+
+    <div class="min-h-[400px]">
+
+      <!-- ═══ SCHEDULE ═══ -->
+      <div id="tab-schedule" class="tab-content active space-y-6">
+
+        <div class="bg-white rounded-3xl shadow-lg border border-stone-100 p-6 flex items-start">
+          <div class="flex flex-col items-center mr-6">
+            <div class="text-violet-600 font-black text-lg mb-2">10:30</div>
+            <div class="w-0.5 min-h-[2.5rem] bg-stone-100"></div>
+          </div>
+          <div class="bg-stone-50 p-4 rounded-2xl flex-shrink-0 text-violet-500 mr-4 self-start">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold mb-1 text-gray-800">集合</h4>
+            <p class="sched-big text-base md:text-lg font-bold text-violet-800 leading-relaxed mt-2">捷運奇岩站 1 號出口</p>
+          </div>
+        </div>
+
+        <div class="schedule-clickable bg-white rounded-3xl shadow-lg border border-stone-100 p-6 flex items-start cursor-pointer" onclick="setActiveTab('spiritual')">
+          <div class="flex flex-col items-center mr-6">
+            <div class="text-violet-600 font-black text-lg mb-2">10:45</div>
+            <div class="w-0.5 min-h-[2.5rem] bg-stone-100"></div>
+          </div>
+          <div class="sched-icon bg-stone-50 p-4 rounded-2xl flex-shrink-0 text-violet-500 mr-4 self-start transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 7 4 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l4-2"/><path d="M14 22v-4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v4"/><path d="M18 22V5l-6-3-6 3v17"/><path d="M12 7v5"/><circle cx="12" cy="7" r="1"/></svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="sched-title text-xl font-bold mb-1 text-gray-800 flex items-center transition-colors">同沐主愛
+              <svg class="sched-chevron w-5 h-5 ml-1 text-violet-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </h4>
+            <p class="text-sm text-gray-500">北投區三合街一段117巷60號4樓</p>
+            <p class="text-xs text-violet-600 font-medium mt-1">詩歌敬拜 ／ 讚美禱告 ／ 事工交通</p>
+          </div>
+        </div>
+
+        <div class="schedule-clickable bg-white rounded-3xl shadow-lg border border-stone-100 p-6 flex items-start cursor-pointer" onclick="setActiveTab('menu')">
+          <div class="flex flex-col items-center mr-6">
+            <div class="text-violet-600 font-black text-lg mb-2">12:15</div>
+            <div class="w-0.5 min-h-[2.5rem] bg-stone-100"></div>
+          </div>
+          <div class="sched-icon bg-stone-50 p-4 rounded-2xl flex-shrink-0 text-violet-500 mr-4 self-start transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="sched-title text-xl font-bold mb-1 text-gray-800 flex items-center transition-colors">午餐饗宴
+              <svg class="sched-chevron w-5 h-5 ml-1 text-violet-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </h4>
+            <p class="text-sm text-gray-500">美味午餐，輕鬆交流</p>
+          </div>
+        </div>
+
+        <div class="schedule-clickable bg-white rounded-3xl shadow-lg border border-stone-100 p-6 flex items-start cursor-pointer" onclick="setActiveTab('village')">
+          <div class="flex flex-col items-center mr-6">
+            <div class="text-violet-600 font-black text-lg mb-2">14:15</div>
+            <div class="w-0.5 min-h-[2.5rem] bg-stone-100"></div>
+          </div>
+          <div class="sched-icon bg-stone-50 p-4 rounded-2xl flex-shrink-0 text-violet-500 mr-4 self-start transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14h.01"/><path d="M7 7h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3"/><path d="M11 3h3"/><path d="M12 3v2.5M8 21v-4a4 4 0 0 1 4-4 4 4 0 0 1 4 4v4"/><path d="M5 14c3.7 0 5.7-1 9-1s6.8 1 9 1"/></svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="sched-title text-xl font-bold mb-1 text-gray-800 flex items-center transition-colors">北投探索趣<span class="text-sm font-normal ml-1 opacity-70">（自由參加）</span>
+              <svg class="sched-chevron w-5 h-5 ml-1 text-violet-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </h4>
+            <p class="text-sm text-gray-500">離塵不離城 ／ 溫泉博物館 ／ 時代眷村情……</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-lg border border-stone-100 p-6 flex items-start">
+          <div class="flex flex-col items-center mr-6">
+            <div class="text-violet-600 font-black text-lg mb-2">16:30</div>
+          </div>
+          <div class="bg-stone-50 p-4 rounded-2xl flex-shrink-0 text-emerald-500 mr-4 self-start">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold mb-1 text-gray-800">戀戀不捨回家去</h4>
+            <p class="text-sm text-gray-500">帶著滿滿的祝福，平安踏上歸途</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ═══ 同沐主愛 ═══ -->
+      <div id="tab-spiritual" class="tab-content">
+        <div class="text-center mb-10">
+          <div class="inline-block bg-violet-50 px-4 py-1 rounded-full text-violet-500 text-[10px] font-black mb-3 uppercase tracking-widest">Fellowship · Worship</div>
+          <h2 class="text-3xl font-bold mb-3 text-gray-800" style="font-family:Georgia,serif">同沐主愛</h2>
+          <p class="text-gray-500 text-sm">在主愛中相聚，靈裡更新充電。</p>
+        </div>
+        <div class="bg-violet-50 rounded-3xl p-5 mb-8 flex items-start gap-4 border border-violet-100">
+          <div class="w-10 h-10 bg-violet-200 rounded-2xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-violet-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <p class="font-black text-violet-800 text-sm mb-0.5">聚會地點</p>
+            <p class="font-bold text-gray-800">北投區三合街一段117巷60號4樓</p>
+            <p class="text-xs text-gray-500 mt-1">10:45 集合 ｜ 捷運奇岩站 1 號出口步行可達</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="spirit-card bg-violet-50 border border-violet-100 p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all duration-500">
+            <div class="spirit-icon-box bg-white w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+              <svg class="w-6 h-6 text-violet-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </div>
+            <h4 class="font-bold text-xl mb-1 text-gray-800">詩歌敬拜</h4>
+            <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest">Worship Songs</p>
+            <p class="text-sm text-gray-600 leading-relaxed">以詩歌讚美獻上心意，在歌聲中親近主，開啟美好的敬拜。</p>
+          </div>
+          <div class="spirit-card bg-rose-50 border border-rose-100 p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all duration-500">
+            <div class="spirit-icon-box bg-white w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+              <svg class="w-6 h-6 text-rose-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h4 class="font-bold text-xl mb-1 text-gray-800">讚美禱告</h4>
+            <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest">Praise & Prayer</p>
+            <p class="text-sm text-gray-600 leading-relaxed">彼此代禱守望，在恩典寶座前傾心吐意，同心仰望主的帶領。</p>
+          </div>
+          <div class="spirit-card bg-amber-50 border border-amber-100 p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all duration-500">
+            <div class="spirit-icon-box bg-white w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+              <svg class="w-6 h-6 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+            </div>
+            <h4 class="font-bold text-xl mb-1 text-gray-800">事工交通</h4>
+            <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest">Ministry Sharing</p>
+            <p class="text-sm text-gray-600 leading-relaxed">分享事工進展與代禱需要，同工彼此激勵，共同推進神國大業。</p>
+          </div>
+        </div>
+      </div>
+      <!-- ═══ MENU ═══ -->
+      <div id="tab-menu" class="tab-content space-y-8">
+        
+        <!-- 個人點餐狀態卡 -->
+        <div id="personal-order-card" class="bg-amber-50/75 border border-amber-100 rounded-3xl p-5 md:p-6 hidden">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">✨</span>
+              <div>
+                <h4 class="font-bold text-gray-800 text-sm md:text-base">您已完成點餐登記</h4>
+                <p id="personal-order-summary" class="text-xs text-amber-700 mt-0.5"></p>
+              </div>
+            </div>
+            <button onclick="openOrderModal()" class="text-xs bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 rounded-xl transition-colors shadow-sm">
+              修改餐點
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Banner -->
+        <div class="rounded-[2.5rem] p-8 md:p-10 text-white shadow-xl relative overflow-hidden" style="background:linear-gradient(135deg,#1b5e20,#2e7d32)">
+          <div class="relative z-10">
+            <div class="flex flex-wrap items-center gap-3 mb-3">
+              <span class="bg-white/20 backdrop-blur text-xs font-black px-3 py-1 rounded-full border border-white/20">午餐饗宴</span>
+              <span class="bg-amber-400/90 text-gray-900 text-xs font-black px-3 py-1 rounded-full flex items-center gap-1">⭐ 4.8 <span class="font-normal opacity-80">（303 則評論）</span></span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-1">對味廚房 銀光食驗室</h2>
+            <p class="text-emerald-100 text-sm mb-5 font-light">每一道料理都是精心挑選食材，用心從「原料」開始製作</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+              <div class="space-y-3">
+                <!-- 餐廳資訊卡 -->
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-4 space-y-2.5 border border-white/15">
+                  <div class="flex items-center gap-2.5 text-sm">
+                    <svg class="w-4 h-4 opacity-70 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>台北市北投區三合街一段 119 號 1 樓</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 text-sm">
+                    <svg class="w-4 h-4 opacity-70 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>營業至 19:00</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 text-sm">
+                    <svg class="w-4 h-4 opacity-70 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.35 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <a href="tel:0965219119" class="font-bold hover:underline">0965-219-119</a>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold border border-white/10">✔ 食材安心</span>
+                  <span class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold border border-white/10">✔ 現點現做</span>
+                  <span class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold border border-white/10">✔ 內用外帶</span>
+                  <span class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold border border-white/10">✔ 女性業主</span>
+                </div>
+              </div>
+              <div class="h-52 md:h-64 rounded-3xl overflow-hidden shadow-2xl" style="border:4px solid rgba(255,255,255,.2)">
+                <img src="https://duk.tw/JaqrC5.png" alt="對味廚房銀光食驗室" class="w-full h-full object-cover" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 評論精選 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-2xl shadow border border-stone-100 p-4">
+            <div class="flex gap-1 text-amber-400 text-sm mb-2">★★★★★</div>
+            <p class="text-sm text-gray-700 leading-relaxed italic">「料理超級美味！每一道料理都是精心挑選食材，用心從原料開始製作。」</p>
+            <p class="text-xs text-gray-400 mt-2">— 楊子8・在地嚮導</p>
+          </div>
+          <div class="bg-white rounded-2xl shadow border border-stone-100 p-4">
+            <div class="flex gap-1 text-amber-400 text-sm mb-2">★★★★★</div>
+            <p class="text-sm text-gray-700 leading-relaxed italic">「食材安心、環境舒適，老闆的義大利麵、披薩非常期待！」</p>
+            <p class="text-xs text-gray-400 mt-2">— Google 評論</p>
+          </div>
+          <div class="bg-white rounded-2xl shadow border border-stone-100 p-4">
+            <div class="flex gap-1 text-amber-400 text-sm mb-2">★★★★★</div>
+            <p class="text-sm text-gray-700 leading-relaxed italic">「這裡也有私廚服務，餐點的品質跟味道都很好，推薦！」</p>
+            <p class="text-xs text-gray-400 mt-2">— Google 評論</p>
+          </div>
+        </div>
+
+        <!-- 招牌料理 -->
+        <div class="bg-white rounded-3xl shadow-xl border border-stone-100 overflow-hidden">
+          <div class="p-5 md:p-7 border-b border-stone-100 flex items-center gap-3">
+            <div class="bg-emerald-50 p-2.5 rounded-xl">
+              <svg class="w-5 h-5 text-emerald-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+            </div>
+            <div>
+              <h3 class="text-emerald-800 font-bold text-xl">招牌料理 Signature</h3>
+              <p class="text-xs text-stone-400 mt-0.5">精選食材・職人手作・現點現做</p>
+            </div>
+          </div>
+
+          <div class="p-5 md:p-7 space-y-8">
+
+            <!-- 前菜 -->
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-xl">🥗</span>
+                <h4 class="font-black text-gray-800">前菜</h4>
+                <div class="flex-1 h-px bg-stone-100"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-cheese-salad_20260525_142108.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="乳酪沙拉" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">乳酪沙拉</p></div>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-soup-bread_20260525_142108.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="濃湯麵包" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">濃湯麵包</p></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 主菜 -->
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-xl">🥩</span>
+                <h4 class="font-black text-gray-800">主菜</h4>
+                <div class="flex-1 h-px bg-stone-100"></div>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-chicken-qq-noodle_20260525_142129.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="跑跑雞QQ麵" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">跑跑雞QQ麵</p></div>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-garlic-shrimp_20260525_142138.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="蒜味油封蝦" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">蒜味油封蝦</p></div>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-bbq-chicken-thigh_20260525_142147.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="燒烤搖滾雞腿排" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">燒烤搖滾雞腿排</p></div>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-red-wine-beef_20260525_142216.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="紅酒燴牛筋" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">紅酒燴牛筋</p></div>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-bbq-squid_20260525_142230.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="燒烤透抽" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">燒烤透抽</p></div>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-bbq-duck-leg_20260525_142229.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="燒烤油封履歷鴨腿" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">燒烤油封履歷鴨腿</p></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 甜點 -->
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-xl">🍮</span>
+                <h4 class="font-black text-gray-800">甜點</h4>
+                <div class="flex-1 h-px bg-stone-100"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group col-span-2 md:col-span-1">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-animal-dessert_20260525_142233.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="動物福利甜點" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">動物福利甜點</p></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 飲品 -->
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-xl">☕</span>
+                <h4 class="font-black text-gray-800">飲品</h4>
+                <div class="flex-1 h-px bg-stone-100"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-sparkling_20260519_205539.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="氣泡飲" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">氣泡飲</p></div>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-stone-100 bg-stone-50 group">
+                  <div class="h-28 md:h-36 overflow-hidden"><img src="menu-organic-cocoa_20260525_142244.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="有機可可茶" loading="lazy"/></div>
+                  <div class="p-3"><p class="text-sm font-bold text-gray-800 leading-snug">有機可可茶</p></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 導航指引 -->
+        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100">
+          <h3 class="text-emerald-800 font-bold text-xl flex items-center mb-4">
+            <svg class="w-5 h-5 mr-3 text-emerald-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            導航指引
+          </h3>
+          <div class="bg-stone-50 p-4 rounded-2xl mb-4 border-l-4 border-emerald-500">
+            <p class="text-xs text-gray-500 mb-1 font-bold">📍 餐廳地址</p>
+            <p class="text-sm font-bold text-gray-800">台北市北投區三合街一段 119 號 1 樓</p>
+            <p class="text-xs text-gray-500 mt-1">📞 0965-219-119　🕐 營業至 19:00</p>
+          </div>
+          <div class="mb-4">
+            <a href="https://maps.app.goo.gl/對味廚房銀光食驗室" target="_blank" rel="noopener noreferrer"
+              class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl transition-all shadow-md w-full">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              在 Google Maps 查看
+            </a>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <a href="https://www.google.com/maps/dir/奇岩捷運站/對味廚房銀光食驗室" target="_blank" rel="noopener noreferrer"
+              class="nav-route flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-transparent text-gray-800 block">
+              <div>
+                <p class="text-sm font-bold text-gray-800">奇岩捷運站 1 號出口</p>
+                <p class="text-[10px] text-stone-400 flex items-center mt-1">
+                  <svg class="w-3 h-3 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  步行約 5–8 分 ⟵ 集合地點在此
+                </p>
+              </div>
+              <div class="nav-arrow bg-white p-2 rounded-full shadow-sm">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </div>
+            </a>
+            <a href="https://www.google.com/maps/dir/新北投捷運站/對味廚房銀光食驗室" target="_blank" rel="noopener noreferrer"
+              class="nav-route flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-transparent text-gray-800 block">
+              <div>
+                <p class="text-sm font-bold text-gray-800">新北投捷運站</p>
+                <p class="text-[10px] text-stone-400 flex items-center mt-1">
+                  <svg class="w-3 h-3 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  步行約 10–12 分
+                </p>
+              </div>
+              <div class="nav-arrow bg-white p-2 rounded-full shadow-sm">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- 點餐統計名單卡 -->
+        <div id="firebase-orders-card" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100 hidden">
+          <h3 class="text-emerald-800 font-bold text-xl flex items-center mb-4 gap-2">
+            <span>📊</span>
+            點餐統計名單
+          </h3>
+          
+          <!-- 統計數據 -->
+          <div id="orders-tally-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <!-- Dynamic Tally Elements -->
+          </div>
+
+          <!-- 詳細清單 -->
+          <div class="border-t border-stone-100 pt-4">
+            <h4 class="text-sm font-bold text-stone-400 mb-3">詳細登記清單</h4>
+            <div id="orders-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+              <!-- Dynamic List Elements -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══ ECO ═══ -->
+      <div id="tab-eco" class="tab-content">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+          <div class="eco-header bg-emerald-50 px-8 py-10 md:py-16 text-center">
+            <svg class="w-12 h-12 text-emerald-500 mx-auto mb-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            <p class="text-emerald-700 font-black italic mb-2 text-lg drop-shadow-sm uppercase">享受樹比人多的靜謐自在，伴隨小河悠然流淌的舒暢時光</p>
+          </div>
+          <div class="p-10 space-y-16">
+            <section class="space-y-8">
+              <div class="border-l-4 border-emerald-500 pl-4 mb-6">
+                <h3 class="text-2xl font-bold text-emerald-800">第一部分｜奇岩重劃區：都市中的生態綠洲</h3>
+              </div>
+              <p class="text-gray-600 leading-relaxed text-lg text-center max-w-2xl mx-auto">
+                想像一下，在寸土旬金的台北，竟然藏著一處約 17 公頃的純淨綠洲！這就是北投奇岩里，西倚靜謐磺港溪，東靠壯闊軍艦岩系。全區綠覆率達 60%，限高 32 米且建蔽率僅約 45%，確保了極佳的棟距、採光與景觀。這裡是都市與自然生態共榮的環境。
+              </p>
+            </section>
+            <section class="space-y-8 pt-8 border-t border-stone-100">
+              <div class="border-l-4 border-emerald-500 pl-4 mb-6">
+                <h3 class="text-2xl font-bold text-emerald-800">第二部分｜磺港溪再造：流動的藍帶靈魂</h3>
+              </div>
+              <p class="text-gray-600 leading-relaxed text-lg font-light">
+                磺港溪與大豐公園濕地環繞此區，透過溪流復育計畫，將原本的排水系統轉化為可親、可遊的生態廊道。漫步於此，能聽見潺潺水聲與自然聲景共譜的和弦。
+              </p>
+              <div class="p-5 flex flex-wrap justify-center gap-6 bg-white text-center">
+                <div class="w-full text-xl font-bold mb-5 flex items-center justify-center gap-2">
+                  <span class="text-red-500">🎬</span> 社區聲景紀實 Video
+                </div>
+                <div class="flex-1 min-w-[300px] max-w-[500px]">
+                  <a href="https://www.youtube.com/watch?v=RoJQjmk4CrM" target="_blank" rel="noopener noreferrer"
+                    class="video-thumb relative block overflow-hidden rounded-2xl shadow-lg bg-stone-900 cursor-pointer border border-stone-200"
+                    style="padding-bottom:56.25%;height:0">
+                    <img src="https://img.youtube.com/vi/RoJQjmk4CrM/maxresdefault.jpg" alt="北投奇岩重劃區生態巡禮" class="vt-img absolute inset-0 w-full h-full object-cover" />
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="play-btn flex items-center justify-center w-16 h-16 rounded-full shadow-2xl" style="background:rgba(220,38,38,.9)">
+                        <svg class="w-8 h-8 ml-1" style="fill:white;color:white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg text-white text-xs font-bold tracking-wider" style="background:rgba(0,0,0,.7)">前往 YouTube 觀看</div>
+                  </a>
+                  <div class="mt-4 text-[15px] font-bold text-gray-800 tracking-wide">北投奇岩重劃區生態巡禮</div>
+                </div>
+                <div class="flex-1 min-w-[300px] max-w-[500px]">
+                  <a href="https://www.youtube.com/watch?v=aubzV9YQ7rs" target="_blank" rel="noopener noreferrer"
+                    class="video-thumb relative block overflow-hidden rounded-2xl shadow-lg bg-stone-900 cursor-pointer border border-stone-200"
+                    style="padding-bottom:56.25%;height:0">
+                    <img src="https://img.youtube.com/vi/aubzV9YQ7rs/maxresdefault.jpg" alt="磺港溪再造完工紀錄" class="vt-img absolute inset-0 w-full h-full object-cover" />
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="play-btn flex items-center justify-center w-16 h-16 rounded-full shadow-2xl" style="background:rgba(220,38,38,.9)">
+                        <svg class="w-8 h-8 ml-1" style="fill:white;color:white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg text-white text-xs font-bold tracking-wider" style="background:rgba(0,0,0,.7)">前往 YouTube 觀看</div>
+                  </a>
+                  <div class="mt-4 text-[15px] font-bold text-gray-800 tracking-wide">磺港溪再造完工紀錄</div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ HOT SPRING MUSEUM ═══ -->
+      <div id="tab-hotspring" class="tab-content">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-stone-100 p-8">
+          <h2 class="text-3xl font-black text-cyan-700 mb-2 italic">北投溫泉博物館</h2>
+          <p class="text-gray-500 text-sm mb-8 border-l-4 border-cyan-400 pl-3">建於 1913 年・全台最大日式公共浴場・國定古蹟</p>
+
+          <!-- 介紹文字 + 特色 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 items-start">
+            <div class="space-y-4">
+              <p class="text-gray-600 leading-relaxed">北投溫泉博物館建於 1913 年（大正 2 年），曾是全台最大的公共浴場。融合羅馬與日式建築風格，磁磚浴池、彩繪玻璃窗及榻榻米大廳皆保存完好，於 1998 年由當地居民推動下登錄為市定古蹟，後升格為國定古蹟。</p>
+              <div class="space-y-3">
+                <div class="flex gap-3 p-3 bg-cyan-50 rounded-xl border border-cyan-100">
+                  <span class="text-xl">♨️</span>
+                  <div><h4 class="font-bold text-sm text-gray-800">青磺溫泉浴池</h4><p class="text-xs text-gray-500">全台罕見的強酸性青磺泉，浴池磁磚完整保存日治原貌。</p></div>
+                </div>
+                <div class="flex gap-3 p-3 bg-cyan-50 rounded-xl border border-cyan-100">
+                  <span class="text-xl">🏛️</span>
+                  <div><h4 class="font-bold text-sm text-gray-800">羅馬式拱廊建築</h4><p class="text-xs text-gray-500">和洋折衷建築風格，彩繪玻璃、拱型廊道、二樓榻榻米大廳。</p></div>
+                </div>
+                <div class="flex gap-3 p-3 bg-cyan-50 rounded-xl border border-cyan-100">
+                  <span class="text-xl">📍</span>
+                  <div><h4 class="font-bold text-sm text-gray-800">開放時間</h4><p class="text-xs text-gray-500">週二至週日 09:00–17:00・週一及國定假日休館・免費參觀</p></div>
+                </div>
+              </div>
+              <a href="https://hotspringmuseum.taipei/" target="_blank" rel="noopener noreferrer"
+                class="flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 rounded-2xl transition-all shadow-lg w-full">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                前往北投溫泉博物館官網
+              </a>
+            </div>
+
+            <!-- Google Maps -->
+            <div class="rounded-2xl overflow-hidden shadow-xl bg-stone-100" style="height:380px;border:6px solid white">
+              <iframe src="https://maps.google.com/maps?saddr=新北投捷運站&daddr=北投溫泉博物館&t=&z=16&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+
+          <!-- YouTube 影片 -->
+          <div class="mt-4">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              影片介紹
+            </h3>
+            <div class="rounded-2xl overflow-hidden shadow-lg" style="position:relative;padding-bottom:56.25%;height:0">
+              <iframe src="https://www.youtube.com/embed/R_R5OJuRzyw"
+                style="position:absolute;top:0;left:0;width:100%;height:100%"
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ VILLAGE ═══ -->
+      <div id="tab-village" class="tab-content">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-stone-100 p-8">
+          <h2 class="text-3xl font-black text-orange-600 mb-6 italic">時代眷村情</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div class="space-y-6">
+              <p class="text-gray-600 leading-relaxed ws-preline">北投中心新村是國防部通過全臺 13 處眷村保存區之一，也是臺北市少數僅存規模完整之眷村，更為全臺唯一的溫泉軍醫眷村。眷舍與周邊軍事單位有著密切關聯，結合北投歷史脈絡、溫泉文化與生活記憶。
+
+透過聚落維運，中心新村將納入「文化永續發展」的概念，活化空間並創新文化呈現形式，打造特色交流平台。串聯新北投自然與人文景點，展現北投多元豐富的社區故事。</p>
+              <div class="grid grid-cols-1 gap-4">
+                <div class="flex gap-4 p-4 bg-stone-50 rounded-2xl border border-stone-100">
+                  <div class="p-3 bg-white rounded-xl text-orange-500 shadow-sm flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/></svg>
+                  </div>
+                  <div><h4 class="font-bold text-sm text-gray-800">全台唯一溫泉軍醫眷村</h4><p class="text-xs text-gray-500">完整保存不同時期的眷舍建築類型，融合溫泉文化脈絡。</p></div>
+                </div>
+                <div class="flex gap-4 p-4 bg-stone-50 rounded-2xl border border-stone-100">
+                  <div class="p-3 bg-white rounded-xl text-orange-500 shadow-sm flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </div>
+                  <div><h4 class="font-bold text-sm text-gray-800">文化永續活化基地</h4><p class="text-xs text-gray-500">結合新舊元素再利用空間，打造跨世代理解交流平台。</p></div>
+                </div>
+                <div class="flex gap-4 p-4 bg-stone-50 rounded-2xl border border-stone-100">
+                  <div class="p-3 bg-white rounded-xl text-orange-500 shadow-sm flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  </div>
+                  <div><h4 class="font-bold text-sm text-gray-800">在地文史故事據點</h4><p class="text-xs text-gray-500">串聯周邊自然人文景點，展現北投豐富社區記憶。</p></div>
+                </div>
+              </div>
+              <a href="https://www.beitouheartvillage.taipei/" target="_blank" rel="noopener noreferrer"
+                class="flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg w-full">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                前往中心新村官網
+              </a>
+            </div>
+            <div class="map-frame w-full rounded-2xl overflow-hidden shadow-2xl bg-stone-100" style="height:400px;border:8px solid white">
+              <iframe src="https://maps.google.com/maps?saddr=新北投捷運站&daddr=北投中心新村&t=&z=16&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ ATTRACTIONS ═══ -->
+      <div id="tab-attractions" class="tab-content">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-stone-100 p-8">
+          <h2 class="text-3xl font-black text-emerald-800 mb-6 italic">🗺️ 北投景點</h2>
+          <div class="map-frame w-full rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 shadow-inner" style="height:500px">
+            <iframe src="https://www.google.com/maps/d/embed?mid=1hdGgOfXGhCfZNb5TYRCTyrq6fOnKMF0&ehbc=2E312F" class="w-full h-full border-0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+
+
+    </div><!-- /content area -->
+
+    <!-- ═══ WEATHER + BIBLE ═══ -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+
+      <!-- 即時天氣 -->
+      <div class="bg-white rounded-3xl shadow-lg border border-stone-100 overflow-hidden">
+        <div class="p-6 text-white" style="background:linear-gradient(135deg,#38bdf8,#1d4ed8)">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-black uppercase tracking-widest opacity-80">即時天氣 · 北投</span>
+            <svg class="w-4 h-4 opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+          </div>
+          <div class="flex items-center gap-4">
+            <span id="w-emoji" class="text-5xl leading-none">⏳</span>
+            <div>
+              <div id="w-temp" class="text-4xl font-black leading-none">--°C</div>
+              <div class="flex flex-wrap items-center gap-2 mt-1">
+                <span id="w-desc" class="text-sm font-bold opacity-90">載入中…</span>
+                <span id="w-feel" class="text-xs opacity-70"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 grid grid-cols-2 gap-3">
+          <div class="bg-sky-50 rounded-2xl p-3 text-center">
+            <p class="text-[10px] text-sky-400 font-black uppercase tracking-wider mb-1">濕度</p>
+            <p id="w-humidity" class="text-xl font-black text-gray-800">--%</p>
+          </div>
+          <div class="bg-sky-50 rounded-2xl p-3 text-center">
+            <p class="text-[10px] text-sky-400 font-black uppercase tracking-wider mb-1">風速</p>
+            <p id="w-wind" class="text-xl font-black text-gray-800">-- km/h</p>
+          </div>
+        </div>
+        <p id="w-time" class="text-[10px] text-center text-stone-300 pb-3 font-medium">資料來源 Open-Meteo</p>
+      </div>
+
+      <!-- 聖經金句 -->
+      <div class="bg-white rounded-3xl shadow-lg border border-stone-100 overflow-hidden flex flex-col">
+        <div class="p-6 text-white" style="background:linear-gradient(135deg,#f59e0b,#dc2626)">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black uppercase tracking-widest opacity-80">聖經金句</span>
+            <span class="text-2xl">✝️</span>
+          </div>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <p id="bible-text" class="text-gray-700 leading-relaxed text-base italic font-medium mb-4 flex-1"></p>
+          <div class="flex items-center justify-between pt-4 border-t border-stone-100">
+            <p id="bible-ref" class="text-sm text-amber-600 font-black"></p>
+            <div class="flex items-center gap-4">
+              <button onclick="copyBibleVerse(this)" class="text-xs text-stone-400 hover:text-amber-500 transition-colors flex items-center gap-1 font-bold">
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                複製金句
+              </button>
+              <button onclick="loadBibleVerse()" class="text-xs text-stone-400 hover:text-amber-500 transition-colors flex items-center gap-1 font-bold">
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                換一句
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ GUIDELINES ═══ -->
+    <section class="mt-20">
+      <div class="flex items-center justify-center space-x-6 mb-10">
+        <div class="h-px bg-stone-200 flex-1"></div>
+        <h2 class="text-[10px] font-black text-stone-400 uppercase tracking-[0.4em] whitespace-nowrap">探索必讀指南 / Guidelines</h2>
+        <div class="h-px bg-stone-200 flex-1"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-emerald-50 p-6 rounded-3xl text-center border border-white/50 shadow-sm">
+          <div class="mb-4 flex justify-center"><svg class="w-6 h-6 text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
+          <p class="font-bold text-gray-800 mb-1 text-sm">漫遊裝備</p>
+          <p class="text-[11px] text-gray-500 leading-relaxed">運動鞋，岩石地形易滑。</p>
+        </div>
+        <div class="bg-amber-50 p-6 rounded-3xl text-center border border-white/50 shadow-sm">
+          <div class="mb-4 flex justify-center"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></div>
+          <p class="font-bold text-gray-800 mb-1 text-sm">飲水補給</p>
+          <p class="text-[11px] text-gray-500 leading-relaxed">自備 500ml 飲水。</p>
+        </div>
+        <div class="bg-rose-50 p-6 rounded-3xl text-center border border-white/50 shadow-sm">
+          <div class="mb-4 flex justify-center"><svg class="w-6 h-6 text-rose-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <p class="font-bold text-gray-800 mb-1 text-sm">防曬準備</p>
+          <p class="text-[11px] text-gray-500 leading-relaxed">防曬不可少。</p>
+        </div>
+        <div class="bg-blue-50 p-6 rounded-3xl text-center border border-white/50 shadow-sm">
+          <div class="mb-4 flex justify-center"><svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg></div>
+          <p class="font-bold text-gray-800 mb-1 text-sm">導航地圖</p>
+          <p class="text-[11px] text-gray-500 leading-relaxed">建議下載離線地圖。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="bg-white py-20 text-center border-t border-stone-100 mt-10">
+    <p class="text-emerald-600 text-xl mb-6 italic" style="font-family:Georgia,serif">「 聽見生活的頻率，遇見心靈的風景 」</p>
+    <div class="flex items-center justify-center space-x-4 text-stone-300 text-[10px] font-semibold tracking-[0.1em]">
+      <span>EST. 2026.05.23</span><span>•</span><span>BEITOU EARLY SUMMER WALK</span>
+    </div>
+  </footer>
+
+  <!-- ═══ CHAT WIDGET ═══ -->
+  <div id="chat-widget" class="fixed bottom-6 right-6" style="z-index:100">
+    <div id="chat-panel" class="hidden-panel bg-white rounded-3xl shadow-2xl border border-stone-100 overflow-hidden mb-4" style="width:340px;display:none;flex-direction:column">
+      <div class="px-5 py-4 flex items-center justify-between" style="background:#059669">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-xl" style="background:rgba(255,255,255,.2)">
+            <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          </div>
+          <div>
+            <p class="text-white font-bold text-sm">北投漫遊小助手</p>
+            <p class="text-xs" style="color:rgba(167,243,208,1)">AI 旅遊顧問 · 線上中</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleChatSettings()" class="hover:opacity-75 transition-opacity" style="color:rgba(255,255,255,.8)">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+          <button onclick="toggleChat()" class="hover:opacity-75 transition-opacity" style="color:rgba(255,255,255,.8)">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Settings Panel -->
+      <div id="chat-settings" class="border-b border-stone-100 p-4 bg-stone-50" style="display:none">
+        <label class="block text-xs font-bold text-gray-700 mb-1.5">設定 Gemini API 金鑰</label>
+        <div class="flex gap-2">
+          <input id="chat-api-key" type="password" placeholder="AIzaSy..."
+            class="flex-1 bg-white rounded-xl px-3 py-2 text-xs outline-none border border-stone-200 focus:border-emerald-300 transition-colors" />
+          <button onclick="saveChatSettings()" class="text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-2 rounded-xl text-xs font-bold transition-colors">
+            儲存
+          </button>
+        </div>
+        <div class="flex justify-between items-center mt-1.5">
+          <p class="text-[10px] text-gray-400">金鑰僅存於瀏覽器，不會傳送至第三方。</p>
+          <span id="chat-settings-status" class="text-[10px] font-bold text-emerald-600 hidden">已儲存!</span>
+        </div>
+      </div>
+      <div id="chat-messages" class="overflow-y-auto p-4 space-y-3" style="min-height:200px;max-height:280px">
+        <div class="flex gap-2">
+          <div class="rounded-2xl p-3 text-sm text-gray-800 max-w-[85%]" style="background:#f1f5f9;border-radius:1rem 1rem 1rem .25rem">
+            您好！我是您的北投漫遊小助手。新的「北投景點」地圖已經為您加到選單囉！✨
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-stone-100 p-3 flex gap-2">
+        <input id="chat-input" type="text" placeholder="輸入您的問題…"
+          class="flex-1 bg-stone-50 rounded-2xl px-4 py-2.5 text-sm outline-none border border-stone-100 focus:border-emerald-300 transition-colors"
+          onkeydown="if(event.key==='Enter')sendChat()" />
+        <button onclick="sendChat()" class="text-white p-2.5 rounded-2xl transition-colors hover:opacity-90" style="background:#059669">
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+    <button onclick="toggleChat()" id="chat-toggle-btn"
+      class="text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all ml-auto hover:opacity-90"
+      style="background:#059669">
+      <svg id="chat-btn-icon" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </button>
+  </div>
+
+  <!-- ═══ ORDER MODAL ═══ -->
+  <div id="order-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);">
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden border border-stone-100 flex flex-col max-h-[90vh] scale-95 opacity-0 transition-all duration-300" id="order-modal-card">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-5 flex items-center justify-between text-white" style="background: linear-gradient(135deg, #1b5e20, #2e7d32)">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🍱</span>
+          <div>
+            <h3 class="font-bold text-lg">G12 同工會 · 午餐點餐</h3>
+            <p class="text-xs text-emerald-100 opacity-90">請填寫點餐資訊，以利同工統計</p>
+          </div>
+        </div>
+        <button onclick="closeOrderModal()" class="hover:opacity-75 transition-opacity text-white/80">
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-6 flex-1">
+        
+        <!-- Name Input -->
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-1">
+            <span>👤</span> 填寫姓名 <span class="text-red-500">*</span>
+          </label>
+          <input id="order-name" type="text" placeholder="請輸入您的姓名" 
+            class="w-full bg-stone-50 rounded-2xl px-4 py-3 text-sm outline-none border border-stone-200 focus:border-emerald-500 transition-colors" />
+        </div>
+
+        <!-- Meal Info -->
+        <div class="bg-emerald-50 border border-emerald-100 rounded-3xl p-5">
+          <div class="flex justify-between items-center mb-2">
+            <h4 class="font-black text-emerald-800 text-base">舒食套餐組</h4>
+            <span class="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full font-bold">包含附餐</span>
+          </div>
+          <p class="text-xs text-emerald-700 leading-relaxed">
+            本套餐含：<strong>時蔬沙拉、鮮蔬濃湯、甜點、飲品</strong>，下方請選擇您想搭配的一道主菜。
+          </p>
+        </div>
+
+        <!-- Main Course Options -->
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-1">
+            <span>🥩</span> 選擇主菜 (單選) <span class="text-red-500">*</span>
+          </label>
+          <div class="space-y-2.5" id="main-course-options">
+            
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤搖滾雞腿排" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤搖滾雞腿排</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="紅酒燴牛筋" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">紅酒燴牛筋</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤時蔬（素食）" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤時蔬 <span class="text-xs text-emerald-600 bg-emerald-100/70 px-1.5 py-0.5 rounded font-normal font-bold">素食</span></span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤邱家好魚" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤邱家好魚</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤永續豬肉" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤永續豬肉</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="蒜味油封蝦" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">蒜味油封蝦</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="燒烤油封履歷鴨腿" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">燒烤油封履歷鴨腿</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-stone-50 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-emerald-50/35 transition-all cursor-pointer">
+              <input type="radio" name="main-course" value="和牛牛排" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-stone-300" />
+              <div class="flex-1">
+                <span class="text-sm font-bold text-gray-800">和牛牛排</span>
+              </div>
+            </label>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-6 bg-stone-50 border-t border-stone-100 flex gap-3">
+        <button onclick="closeOrderModal()" class="flex-1 py-3.5 rounded-2xl bg-white border border-stone-200 hover:bg-stone-100 text-gray-700 font-bold transition-colors text-sm">
+          取消
+        </button>
+        <button onclick="submitOrder()" class="flex-1 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors shadow-md text-sm flex items-center justify-center gap-1.5">
+          <span>✔️</span> 送出
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ── WEATHER ──
+    const WEATHER_CODES = {
+      0:['☀️','晴朗'],1:['🌤️','大致晴'],2:['⛅','局部多雲'],3:['☁️','陰天'],
+      45:['🌫️','有霧'],48:['🌫️','霧凇'],
+      51:['🌦️','毛毛雨'],53:['🌦️','毛毛雨'],55:['🌧️','毛毛雨'],
+      61:['🌧️','小雨'],63:['🌧️','中雨'],65:['🌧️','大雨'],
+      71:['❄️','小雪'],73:['❄️','中雪'],75:['❄️','大雪'],
+      80:['🌦️','陣雨'],81:['🌦️','陣雨'],82:['⛈️','大陣雨'],
+      85:['🌨️','陣雪'],86:['🌨️','陣雪'],
+      95:['⛈️','雷陣雨'],96:['⛈️','雷雨夾冰雹'],99:['⛈️','強雷雨']
+    };
+    async function loadWeather() {
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.136&longitude=121.501&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m&timezone=Asia%2FTaipei');
+        const d = await res.json();
+        const c = d.current;
+        const [emoji, desc] = WEATHER_CODES[c.weather_code] || ['🌡️','未知'];
+        document.getElementById('w-emoji').textContent = emoji;
+        document.getElementById('w-temp').textContent = Math.round(c.temperature_2m) + '°C';
+        document.getElementById('w-feel').textContent = '體感 ' + Math.round(c.apparent_temperature) + '°C';
+        document.getElementById('w-desc').textContent = desc;
+        document.getElementById('w-humidity').textContent = c.relative_humidity_2m + '%';
+        document.getElementById('w-wind').textContent = Math.round(c.wind_speed_10m) + ' km/h';
+        document.getElementById('w-time').textContent = '更新：' + new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+      } catch(e) {
+        document.getElementById('w-emoji').textContent = '⚠️';
+        document.getElementById('w-temp').textContent = '--';
+        document.getElementById('w-desc').textContent = '無法取得天氣';
+      }
+    }
+
+    // ── BIBLE VERSE ──
+    const BIBLE_VERSES = [
+      ['約翰福音 3:16','神愛世人，甚至將他的獨生子賜給他們，叫一切信他的，不至滅亡，反得永生。'],
+      ['腓立比書 4:13','我靠著那加給我力量的，凡事都能做。'],
+      ['詩篇 23:1','耶和華是我的牧者，我必不至缺乏。'],
+      ['以賽亞書 40:31','但那等候耶和華的，必重新得力；他們必如鷹展翅上騰，他們奔跑卻不困倦，行走卻不疲乏。'],
+      ['耶利米書 29:11','耶和華說：我知道我向你們所懷的意念，是賜平安的意念，不是降災禍的意念，要叫你們末後有指望。'],
+      ['羅馬書 8:28','我們曉得萬事都互相效力，叫愛神的人得益處，就是按他旨意被召的人。'],
+      ['哥林多前書 13:4-5','愛是恆久忍耐，又有恩慈；愛是不嫉妒，愛是不自誇，不張狂，不求自己的益處，不輕易發怒，不計算人的惡。'],
+      ['馬太福音 11:28','凡勞苦擔重擔的人，可以到我這裡來，我就使你們得安息。'],
+      ['詩篇 118:24','這是耶和華所定的日子，我們在其中要高興歡喜。'],
+      ['約翰福音 15:13','人為朋友捨命，人的愛心沒有比這個大的。'],
+      ['箴言 3:5-6','你要專心仰賴耶和華，不可倚靠自己的聰明，在你一切所行的事上，都要認定他，他必指引你的路。'],
+      ['馬太福音 5:9','使人和睦的人有福了！因為他們必稱為神的兒子。'],
+      ['約翰福音 13:16','我實實在在的告訴你們，僕人不能大於主人，差人也不能大於差他的人。'],
+    ];
+    let _lastVerseIdx = -1;
+    function loadBibleVerse() {
+      let idx;
+      do { idx = Math.floor(Math.random() * BIBLE_VERSES.length); } while(idx === _lastVerseIdx && BIBLE_VERSES.length > 1);
+      _lastVerseIdx = idx;
+      const [ref, text] = BIBLE_VERSES[idx];
+      document.getElementById('bible-text').textContent = '“' + text + '”';
+      document.getElementById('bible-ref').textContent = '— ' + ref;
+    }
+
+    // ── TAB LOGIC ──
+    function setActiveTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white','text-emerald-600','shadow-md');
+        btn.classList.add('text-gray-500');
+      });
+      const content = document.getElementById('tab-' + tabId);
+      if (content) content.classList.add('active');
+      const btn = document.querySelector('[data-tab="' + tabId + '"]');
+      if (btn) { btn.classList.add('bg-white','text-emerald-600','shadow-md'); btn.classList.remove('text-gray-500'); btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}); }
+    }
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => setActiveTab(btn.dataset.tab)));
+
+    // 頁面載入時初始化
+    loadWeather();
+    loadBibleVerse();
+    updateMenuTabDisplay();
+
+    // ── BIBLE VERSE COPY LOGIC ──
+    function copyBibleVerse(btn) {
+      const text = document.getElementById('bible-text').textContent;
+      const ref = document.getElementById('bible-ref').textContent;
+      const fullText = `${text} ${ref}`;
+      navigator.clipboard.writeText(fullText).then(() => {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="text-emerald-500">已複製!</span>`;
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+        }, 1500);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    }
+
+    // ── CHAT LOGIC ──
+    let chatOpen = false;
+    let settingsOpen = false;
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      const panel = document.getElementById('chat-panel');
+      const icon = document.getElementById('chat-btn-icon');
+      if (chatOpen) {
+        panel.style.display = 'flex';
+        requestAnimationFrame(() => panel.classList.remove('hidden-panel'));
+        icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+      } else {
+        panel.classList.add('hidden-panel');
+        // Also close settings if panel is closed
+        if (settingsOpen) {
+          toggleChatSettings();
+        }
+        setTimeout(() => { panel.style.display = 'none'; }, 300);
+        icon.innerHTML = '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>';
+      }
+    }
+
+    function toggleChatSettings() {
+      settingsOpen = !settingsOpen;
+      const settingsPanel = document.getElementById('chat-settings');
+      settingsPanel.style.display = settingsOpen ? 'block' : 'none';
+      if (settingsOpen) {
+        document.getElementById('chat-api-key').value = localStorage.getItem('gemini_api_key') || '';
+      }
+    }
+
+    function saveChatSettings() {
+      const key = document.getElementById('chat-api-key').value.trim();
+      if (key) {
+        localStorage.setItem('gemini_api_key', key);
+      } else {
+        localStorage.removeItem('gemini_api_key');
+      }
+      const statusEl = document.getElementById('chat-settings-status');
+      statusEl.textContent = key ? '已儲存!' : '已清除!';
+      statusEl.classList.remove('hidden');
+      setTimeout(() => {
+        statusEl.classList.add('hidden');
+        toggleChatSettings();
+      }, 1000);
+    }
+
+    function addMessage(role, content) {
+      const c = document.getElementById('chat-messages');
+      const wrap = document.createElement('div');
+      wrap.className = 'flex gap-2' + (role==='user' ? ' justify-end' : '');
+      const bubble = document.createElement('div');
+      bubble.className = 'p-3 text-sm max-w-[85%]';
+      bubble.style.cssText = role==='user'
+        ? 'background:#059669;color:white;border-radius:1rem 1rem .25rem 1rem'
+        : 'background:#f1f5f9;color:#1f2937;border-radius:1rem 1rem 1rem .25rem';
+      bubble.textContent = content;
+      wrap.appendChild(bubble); c.appendChild(wrap);
+      c.scrollTop = c.scrollHeight;
+    }
+
+    function showTyping() {
+      const c = document.getElementById('chat-messages');
+      const div = document.createElement('div'); div.id='typing-indicator'; div.className='flex gap-2';
+      div.innerHTML = '<div style="background:#f1f5f9;border-radius:1rem 1rem 1rem .25rem;padding:.75rem;color:#6b7280;font-size:.875rem"><span class="typing-dot">·</span><span class="typing-dot">·</span><span class="typing-dot">·</span></div>';
+      c.appendChild(div); c.scrollTop = c.scrollHeight;
+    }
+
+    function hideTyping() { const el=document.getElementById('typing-indicator'); if(el) el.remove(); }
+
+    async function sendChat() {
+      const input = document.getElementById('chat-input');
+      const msg = input.value.trim(); if(!msg) return;
+      addMessage('user', msg); input.value=''; showTyping();
+      
+      const apiKey = localStorage.getItem('gemini_api_key');
+      if (!apiKey) {
+        hideTyping();
+        addMessage('assistant', '請先點擊上方齒輪按鈕，設定您的 Gemini API 金鑰以啟用對話功能。');
+        if (!settingsOpen) {
+          toggleChatSettings();
+        }
+        return;
+      }
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const res = await fetch(url, { 
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            contents: [{ 
+              parts: [{ 
+                text: `你是北投初夏漫遊小助手。今天日期是 2026/07/04。回答要親切專業。\n問題：${msg}` 
+              }] 
+            }] 
+          }) 
+        });
+        const data = await res.json();
+        if (data.error) {
+          throw new Error(data.error.message || 'API 錯誤');
+        }
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '抱歉，小助手暫時無法連線。';
+        hideTyping(); 
+        addMessage('assistant', text);
+      } catch(e) { 
+        hideTyping(); 
+        addMessage('assistant', `連線異常或 API 金鑰無效。請檢查您的金鑰設定。\n錯誤原因：${e.message || '未知錯誤'}`); 
+      }
+    }
+
+    // ── ORDER LOGIC ──
+    function openOrderModal(clear = false) {
+      const modal = document.getElementById('order-modal');
+      const card = document.getElementById('order-modal-card');
+      modal.classList.remove('hidden');
+      
+      if (clear) {
+        // 啟動"立即點餐"按鈕時清空資料
+        document.getElementById('order-name').value = '';
+        const radios = document.getElementsByName('main-course');
+        for (let i = 0; i < radios.length; i++) {
+          radios[i].checked = false;
+        }
+      } else {
+        // 修改餐點時載入本機已存資料
+        const savedName = localStorage.getItem('g12_order_name') || '';
+        const savedMain = localStorage.getItem('g12_order_main') || '';
+        document.getElementById('order-name').value = savedName;
+        const radios = document.getElementsByName('main-course');
+        for (let i = 0; i < radios.length; i++) {
+          if (savedMain && radios[i].value === savedMain) {
+            radios[i].checked = true;
+          } else {
+            radios[i].checked = false;
+          }
+        }
+      }
+      
+      setTimeout(() => {
+        card.classList.remove('scale-95', 'opacity-0');
+      }, 50);
+    }
+    
+    function closeOrderModal() {
+      const modal = document.getElementById('order-modal');
+      const card = document.getElementById('order-modal-card');
+      
+      card.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+    
+    // ── FIREBASE CONFIGURATION ──
+    const firebaseConfig = {
+      apiKey: "AIzaSyCJkm_eA-BJtFzbxO1CyxwK8PbmgHmqq7U",
+      authDomain: "mydesignproject-f22d5.firebaseapp.com",
+      projectId: "mydesignproject-f22d5",
+      storageBucket: "mydesignproject-f22d5.firebasestorage.app",
+      messagingSenderId: "940076219394",
+      appId: "1:940076219394:web:49a10f18c8db9cf50c7b1b"
+    };
+
+    let db = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+      }
+    } catch (e) {
+      console.error("Firebase initialization failed:", e);
+    }
+
+    // Initialize Firebase Realtime listener after DB is ready
+    loadOrdersFromFirebase();
+
+    // ── FIREBASE REALTIME SYNC ──
+    function loadOrdersFromFirebase() {
+      if (!db) return;
+      db.collection('lifebread').orderBy('timestamp', 'asc').onSnapshot((querySnapshot) => {
+        const orders = [];
+        const tally = {};
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          orders.push(data);
+          tally[data.main] = (tally[data.main] || 0) + 1;
+        });
+        renderOrdersList(orders, tally);
+      }, (error) => {
+        console.error("Error loading orders from Firebase:", error);
+      });
+    }
+
+    function renderOrdersList(orders, tally) {
+      const card = document.getElementById('firebase-orders-card');
+      const tallyContainer = document.getElementById('orders-tally-container');
+      const listContainer = document.getElementById('orders-list-container');
+      
+      if (!card || !tallyContainer || !listContainer) return;
+
+      if (orders.length === 0) {
+        card.classList.add('hidden');
+        return;
+      }
+      
+      card.classList.remove('hidden');
+      
+      tallyContainer.innerHTML = '';
+      for (const [dish, count] of Object.entries(tally)) {
+        const item = document.createElement('div');
+        item.className = 'bg-stone-50 rounded-2xl p-3 text-center border border-stone-150 shadow-sm';
+        item.innerHTML = `
+          <p class="text-[11px] text-stone-400 font-bold mb-0.5">${dish}</p>
+          <p class="text-lg font-black text-emerald-700">${count} 份</p>
+        `;
+        tallyContainer.appendChild(item);
+      }
+      
+      listContainer.innerHTML = '';
+      orders.forEach((order) => {
+        const item = document.createElement('div');
+        item.className = 'flex justify-between items-center bg-stone-50/50 hover:bg-stone-50 px-4 py-2.5 rounded-2xl border border-stone-100 transition-colors';
+        item.innerHTML = `
+          <span class="font-bold text-gray-800">${order.name}</span>
+          <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-bold">${order.main}</span>
+        `;
+        listContainer.appendChild(item);
+      });
+    }
+
+    function submitOrderToFirebase(name, mainDish) {
+      if (!db) {
+        return Promise.reject(new Error("Firebase is not initialized."));
+      }
+      return db.collection('lifebread').doc(name).set({
+        name: name,
+        姓名: name,
+        meal: "舒食套餐組",
+        套餐: "舒食套餐組",
+        main: mainDish,
+        主菜: mainDish,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        created_at: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    // ── SEND EMAIL NOTIFICATION (AUTOMATIC) ──
+    function sendOrderEmail(name, mainDish) {
+      const emailTo = "taiwan.kwei@ceci.com.tw,g0306@ceci.com.tw,taiwan.kwei@gmail.com";
+      const subject = `【G12同工會點餐登記】${name} - ${mainDish}`;
+      const body = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
+      
+      // Use FormSubmit API for 100% automated background email delivery
+      fetch("https://formsubmit.co/ajax/taiwan.kwei@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          "姓名": name,
+          "套餐": "舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)",
+          "主菜": mainDish,
+          "_cc": "taiwan.kwei@ceci.com.tw,g0306@ceci.com.tw",
+          "_subject": subject,
+          "_template": "table"
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Email auto-sent successfully:", data);
+      })
+      .catch(error => {
+        console.error("Failed to auto-send email, falling back to mailto:", error);
+        fallbackMailto(emailTo, subject, body);
+      });
+    }
+    
+    function fallbackMailto(emailTo, subject, body) {
+      const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const link = document.createElement('a');
+      link.href = mailtoUrl;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function submitOrder() {
+      const name = document.getElementById('order-name').value.trim();
+      if (!name) {
+        alert('請輸入姓名！');
+        return;
+      }
+      
+      const selectedRadio = document.querySelector('input[name="main-course"]:checked');
+      if (!selectedRadio) {
+        alert('請選擇一道主菜！');
+        return;
+      }
+      
+      const mainDish = selectedRadio.value;
+      
+      // 1. 立即停用按鈕以防重複點擊，並顯示載入狀態
+      const submitBtn = document.querySelector('#order-modal button[onclick*="submitOrder"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳</span> 正在傳送...';
+      }
+      
+      localStorage.setItem('g12_order_name', name);
+      localStorage.setItem('g12_order_main', mainDish);
+      
+      const copyText = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
+      
+      // 2. 立即在背景非同步寫入 Firebase Firestore
+      submitOrderToFirebase(name, mainDish).then(() => {
+        console.log("Firebase sync completed in background.");
+      }).catch(err => {
+        console.error("Firebase sync failed in background:", err);
+      });
+
+      // 3. 立即在背景非同步發送電子郵件
+      sendOrderEmail(name, mainDish);
+
+      // 4. 立即複製點餐內容到剪貼簿
+      navigator.clipboard.writeText(copyText).catch(err => {
+        console.error('Failed to copy order info: ', err);
+      });
+
+      // 5. 立即回應「點餐成功，謝謝」並關閉視窗與更新標籤頁顯示
+      alert('點餐成功，謝謝');
+      closeOrderModal();
+      updateMenuTabDisplay();
+      
+      // 6. 延遲恢復按鈕狀態（確保使用者關閉視窗後，下一次打開時按鈕已恢復，但期間不被重複點擊）
+      if (submitBtn) {
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>✔️</span> 送出';
+        }, 500);
+      }
+    }
+
+    function updateMenuTabDisplay() {
+      const name = localStorage.getItem('g12_order_name');
+      const main = localStorage.getItem('g12_order_main');
+      const card = document.getElementById('personal-order-card');
+      const summary = document.getElementById('personal-order-summary');
+      
+      if (name && main) {
+        card.classList.remove('hidden');
+        summary.innerHTML = `登記姓名：<strong>${name}</strong> ｜ 選擇主菜：<strong>${main}</strong> (舒食套餐組)`;
+      } else {
+        card.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
+
+
