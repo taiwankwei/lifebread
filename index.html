@@ -242,7 +242,7 @@
             <p class="text-xs text-gray-500 mt-1">10:45 集合 ｜ 捷運奇岩站 1 號出口步行可達</p>
           </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div class="spirit-card bg-violet-50 border border-violet-100 p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all duration-500">
             <div class="spirit-icon-box bg-white w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
               <svg class="w-6 h-6 text-violet-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
@@ -266,6 +266,14 @@
             <h4 class="font-bold text-xl mb-1 text-gray-800">事工交通</h4>
             <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest">Ministry Sharing</p>
             <p class="text-sm text-gray-600 leading-relaxed">分享事工進展與代禱需要，同工彼此激勵，共同推進神國大業。</p>
+          </div>
+          <div class="spirit-card bg-emerald-50 border border-emerald-100 p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all duration-500">
+            <div class="spirit-icon-box bg-white w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+              <svg class="w-6 h-6 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+            </div>
+            <h4 class="font-bold text-xl mb-1 text-gray-800">生命的糧</h4>
+            <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest">Bread of Life</p>
+            <p class="text-sm text-gray-600 leading-relaxed">主題：箴言第一章。敬畏耶和華是知識的開端；愚妄人藐視智慧和訓誨。</p>
           </div>
         </div>
       </div>
@@ -500,26 +508,7 @@
           </div>
         </div>
 
-        <!-- 點餐統計名單卡 -->
-        <div id="firebase-orders-card" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-100 hidden">
-          <h3 class="text-emerald-800 font-bold text-xl flex items-center mb-4 gap-2">
-            <span>📊</span>
-            點餐統計名單
-          </h3>
-          
-          <!-- 統計數據 -->
-          <div id="orders-tally-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            <!-- Dynamic Tally Elements -->
-          </div>
 
-          <!-- 詳細清單 -->
-          <div class="border-t border-stone-100 pt-4">
-            <h4 class="text-sm font-bold text-stone-400 mb-3">詳細登記清單</h4>
-            <div id="orders-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
-              <!-- Dynamic List Elements -->
-            </div>
-          </div>
-        </div>
 
       </div>
 
@@ -604,12 +593,7 @@
         <h2 class="text-[10px] font-black text-stone-400 uppercase tracking-[0.4em] whitespace-nowrap">探索必讀指南 / Guidelines</h2>
         <div class="h-px bg-stone-200 flex-1"></div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bg-emerald-50 p-6 rounded-3xl text-center border border-white/50 shadow-sm">
-          <div class="mb-4 flex justify-center"><svg class="w-6 h-6 text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
-          <p class="font-bold text-gray-800 mb-1 text-sm">漫遊裝備</p>
-          <p class="text-[11px] text-gray-500 leading-relaxed">運動鞋，岩石地形易滑。</p>
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="bg-amber-50 p-6 rounded-3xl text-center border border-white/50 shadow-sm">
           <div class="mb-4 flex justify-center"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></div>
           <p class="font-bold text-gray-800 mb-1 text-sm">飲水補給</p>
@@ -892,6 +876,8 @@
     document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => setActiveTab(btn.dataset.tab)));
 
     // 頁面載入時初始化
+    localStorage.removeItem('g12_order_name');
+    localStorage.removeItem('g12_order_main');
     loadWeather();
     loadBibleVerse();
     updateMenuTabDisplay();
