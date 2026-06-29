@@ -690,7 +690,7 @@
         <div class="flex items-center gap-3">
           <span class="text-2xl">🍱</span>
           <div>
-            <h3 class="font-bold text-lg">G12 同工會 · 午餐點餐</h3>
+            <h3 class="font-bold text-lg">基督的羊聚會點餐</h3>
             <p class="text-xs text-emerald-100 opacity-90">請填寫點餐資訊，以利同工統計</p>
           </div>
         </div>
@@ -1149,8 +1149,8 @@
     // ── SEND EMAIL NOTIFICATION (AUTOMATIC) ──
     function sendOrderEmail(name, mainDish) {
       const emailTo = "taiwan.kwei@ceci.com.tw,g0306@ceci.com.tw,taiwan.kwei@gmail.com";
-      const subject = `【G12同工會點餐登記】${name} - ${mainDish}`;
-      const body = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
+      const subject = `【基督的羊聚會點餐登記】${name} - ${mainDish}`;
+      const body = `【基督的羊聚會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
       
       // Use FormSubmit API for 100% automated background email delivery
       fetch("https://formsubmit.co/ajax/taiwan.kwei@gmail.com", {
@@ -1213,7 +1213,7 @@
       localStorage.setItem('g12_order_name', name);
       localStorage.setItem('g12_order_main', mainDish);
       
-      const copyText = `【G12同工會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
+      const copyText = `【基督的羊聚會點餐登記】\n姓名：${name}\n套餐：舒食套餐組 (含時蔬沙拉、鮮蔬濃湯、甜點、飲品)\n主菜：${mainDish}`;
       
       // 2. 立即在背景非同步寫入 Firebase Firestore
       submitOrderToFirebase(name, mainDish).then(() => {

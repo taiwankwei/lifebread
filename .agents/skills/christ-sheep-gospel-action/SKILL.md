@@ -5,7 +5,7 @@ description: 基督的羊福音的行動 — 管理及維護 G12 同工會網頁
 
 # 基督的羊福音的行動 (G12 網頁維護與連動指南)
 
-本技能指引未來的 AI 代理人如何安全且一致地維護與更新 G12 同工會網頁（[index.html](file:///c:/Users/User/中三區G12/index.html)）、其後端的 Firebase Firestore 資料庫同步，以及 FormSubmit 電子郵件自動發送系統。
+本技能指引未來的 AI 代理人如何安全且一致地維護與更新 G12 同工會網頁（[index.html](file:///C:/Users/User/基督的羊/index.html)）、其後端的 Firebase Firestore 資料庫同步，以及 FormSubmit 電子郵件自動發送系統。
 
 ## 🎯 觸發條件
 
@@ -49,5 +49,23 @@ description: 基督的羊福音的行動 — 管理及維護 G12 同工會網頁
 ---
 
 ## 📂 參考檔案
-- [index.html](file:///c:/Users/User/中三區G12/index.html)
+- [index.html](file:///C:/Users/User/基督的羊/index.html)
 - [walkthrough.md](file:///C:/Users/User/.gemini/antigravity/brain/ec94d423-3a3e-473a-ac80-c0a0ca32206e/walkthrough.md)
+
+
+## 📝 自訂規則變更紀錄 (Customization Notes)
+
+- **網頁標題與主標題正名**：
+  - 將原本的 `G12 同工會 · 午餐點餐` 修改為 **`基督的羊聚會點餐`**。
+  - 將網頁的 `<title>` 和 Hero `<h1>` 主標題統一修改為 **`基督的羊`**，英文小區標題為 `Christ's sheep`。
+- **同沐主愛分頁**：
+  - 新增「**生命的糧**」卡片，主題為 **箴言第一章**。
+  - 將「生命的糧」排在「交通分享」左側（即第三順位）。
+  - 將「事工交通」更名為 **「交通分享」**（英文為 `Fellowship Sharing`），描述更新為生活與事工近況的彼此關懷與連結。
+  - 網格配置調整為響應式 4 欄 (`md:grid-cols-2 lg:grid-cols-4`)。
+- **午餐分頁與點餐重設**：
+  - 移除「點餐統計名單」卡片，不向一般用戶顯示統計圖表與詳細清單。
+  - 在頁面初始化載入時，強制調用 `localStorage.removeItem` 清除本地歷史點餐記錄，使點餐表單每次開啟都回歸到無人選取的初始狀態。
+  - 將「在 Google Maps 查看」按鈕之 URL，由原本無效的連結修改為指向「對味廚房銀光食驗室」的有效搜尋連結。
+- **指南與流程精簡**：
+  - 移除「探索必讀指南」中的「漫遊裝備」項目，並將格線版面調整為 3 欄。
